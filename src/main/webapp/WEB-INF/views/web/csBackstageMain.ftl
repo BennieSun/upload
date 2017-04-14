@@ -52,7 +52,7 @@
                     <td name="gameCode" id="gameCode"  class="ALL" width="80px;" style="display: none">${csAskQuestions.gameCode!''}</td>
                     <td name="packageName" id="packageName"  class="ALL" width="80px;" style="display: none">${csAskQuestions.packageName!''}</td>
                     <td name="userId" id="userId"  class="ALL" width="80px;">${csAskQuestions.userId!''}</td>
-                    <td name="message" id="message"  class="ALL" width="80px;">${csAskQuestions.message}</td>
+                    <td name="message" id="message"  class="ALL" width="80px;">${csAskQuestions.message!''}</td>
                     <td name="senderType" id="senderType"  class="ALL" width="80px;">${csAskQuestions.senderId!''}</td>
                     <td name="createdTime" id="createdTime"  class="ALL" width="80px;" style="display: none">
                         ${(csAskQuestions.createdTime*1000)?number_to_datetime?string('yyyy-MM-dd HH:mm:ss')}
