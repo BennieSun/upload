@@ -1,0 +1,666 @@
+<html xmlns="" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <!--<meta http-equiv="Content-Language" content="zh-CN" />-->
+    <meta name="roots" content="" />
+    <meta name="Keywords" content="" />
+    <meta name="Description" content="" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/utils.js"></script>
+    <script type="text/javascript" src="../js/config.js"></script>
+    <title></title>
+    <style type="text/css">
+        body {
+            color: #787878;
+            font-size: 13px;
+            font-family: "微软雅黑";
+            background: #fff;
+            padding-top: 1px;
+            text-align:center;
+        }
+
+        #Tab{
+            overflow: hidden;
+            zoom: 1;
+            margin: 0;
+            padding: 0;
+            width: 1284px;
+            height:552px;
+        }
+
+        .Menubox {
+            float: left;
+            margin: 10px auto auto 10px;
+        }
+
+        .main_menu{
+            float: right;
+            width: 45px;
+        }
+
+        .Contentbox{
+            float: right;
+            border-left: 1px solid #c7c7c7;
+            width: 745px;
+            height: auto !important;
+            height: 500px;
+            min-height: 500px;
+        }
+
+        #con_menu_1{
+            float: left;
+            width: 660px;
+        }
+
+
+        .questions-top {
+            float: left;
+            margin-left: 40px;
+            margin-bottom: 20px;
+            display: inline;
+            width: 580px;
+        }
+        .questions-top li {
+            float: left;
+            margin-top: 25px;
+            width: 100%;
+        }
+        .left-q {
+            float: left;
+            width: 280px;
+        }
+        .right-q {
+            float: right;
+            width: 280px;
+            font-size: 18px;
+            color: #484848;
+        }
+        .q1 {
+            float: left;
+            width: 110px;
+            text-align: right;
+            line-height: 24px;
+            font-size: 18px;
+            color: #484848;
+        }
+
+        .q3 {
+            float: right;
+            width: 430px;
+        }
+
+        .q4 {
+            float: left;
+            width: 400px;
+            margin: 10px auto auto 10px;
+        }
+
+        .textarea-in {
+            float: left;
+            padding: 5px;
+            resize: none;
+            outline: none;
+            border-radius: 4px;
+            border: 1px solid #cfcfcf;
+            -webkit-box-sizing: border-box;
+            width: 100%;
+            height: 120px;
+            font-size: 14px;
+            color: #8c8c8c;
+        }
+        .related-list {
+            float: left;
+            width: 300px;
+        }
+        .related-list li {
+            float: left;
+            margin-top: 10px;
+            width: 100%;
+            line-height: 24px;
+            font-size: 16px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .related-list li a {
+            color: #35addf;
+        }
+        .photo-upload {
+            float: right;
+            margin-top: 10px;
+            width: 140px;
+        }
+        .photo {
+            float: left;
+            position: relative;
+            margin-left: 13px;
+            display: inline;
+            border: 2px solid #e8e8e8;
+            border-radius: 4px;
+            width: 106px;
+            height: 70px;
+        }
+        .photo p {
+            text-align: center;
+            line-height: 70px;
+            color: #7a7a7a;
+        }
+        .photo img {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 106px;
+            height: 70px;
+        }
+        .upload {
+            float: left;
+            position: relative;
+            margin-left: 13px;
+            display: inline;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            width: 110px;
+            height: 26px;
+            line-height: 26px;
+            text-align: center;
+            background: #5fd0ff;
+            color: #fff;
+        }
+        .btn-add {
+            float: left;
+            border: none;
+            border-radius: 6px;
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            font-size: 18px;
+            background: #5fd0ff;
+            color: #fff;
+        }
+        .file-up {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 30px;
+            filter:alpha(opacity:0);
+            opacity: 0;
+            cursor: pointer;
+        }
+        .upload-tips {
+            float: left;
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+            color: #848484;
+        }
+        .input-box {
+            float: left;
+            position: relative;
+            border: 1px solid #d5d5d5;
+            border-radius: 8px;
+            width: 300px;
+            height: 28px;
+        }
+        .area {
+            float: left;
+            position: relative;
+            margin-left: 5px;
+            border-right: 1px solid #d5d5d5;
+            display: inline;
+            width: 100px;
+            height: 28px;
+            line-height: 28px;
+        }
+        .select-area {
+            float: left;
+            outline: none;
+            border: none;
+            width: 100%;
+            height: 28px;
+            line-height: 28px;
+            direction: ltr;
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            font-size: 15px;
+            color: #6b6b6b;
+        }
+        .select-area::-ms-expand {
+            display: none;
+        }
+        .input-text1 {
+            float: left;
+            margin-left: 10px;
+            display: inline;
+            border: none;
+            outline: none;
+            width: 150px;
+            height: 28px;
+            line-height: 28px;
+            font-size: 14px;
+            color: #8c8c8c;
+        }
+        .input-text2 {
+            float: left;
+            margin-left: 10px;
+            display: inline;
+            border: none;
+            outline: none;
+            width: 260px;
+            height: 28px;
+            line-height: 28px;
+            font-size: 14px;
+            color: #8c8c8c;
+        }
+        .q-tips {
+            float: left;
+            width: 300px;
+            font-size: 16px;
+            text-align: center;
+            color: #868686;
+        }
+
+        .service-tit{
+            float: left;
+            position: relative;
+            margin-left: 55px;
+            padding-bottom: 10px;
+            display: inline;
+            border-bottom: 1px solid #e5e5e5;
+            width: 550px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: #01b8ef;
+        }
+
+
+
+
+
+
+
+
+
+
+        a:link, a:visited {
+            font-size: 12px;
+            color: #666;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #ff0000;
+            text-decoration: underline;
+        }
+
+
+
+        .Menubox ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .Menubox ul li {
+            line-height: 100%;
+            display: block;
+            cursor: pointer;
+            width: 20px;
+            text-align: center;
+            color: #0c0c0c;
+            font-weight: bold;
+            max-width:0;
+            padding: 0;
+            height: 184px;
+            font-size: 18px;
+        }
+
+        .Menubox .li-tit{
+            text-align: center;
+            margin: 10px auto;
+        }
+
+        .Menubox ul li.hover {
+            background: #fff;
+            color: red;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            margin: 10px auto;
+            width: 45px;
+        }
+
+
+        .btn-confirm{
+            margin: 0 auto;
+            border-radius: 8px;
+            display: block;
+            overflow: hidden;
+            width: 142px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            font-size: 20px;
+            background: #4fd2c2;
+        }
+
+        .btn-confirm-send{
+            margin: 10px auto auto 10px;
+            border-radius: 8px;
+            display: block;
+            overflow: hidden;
+            width: 142px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            font-size: 20px;
+            background: #4fd2c2;
+        }
+
+        .btn-confirm-complete{
+            margin: 10px auto auto 10px;
+            border-radius: 8px;
+            display: block;
+            overflow: hidden;
+            width: 142px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            font-size: 20px;
+            background: #4fd2c2;
+        }
+
+        .contact-box{
+            float: left;
+            margin-right: 4px;
+            display: inline;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            width: 745px;
+            height: 300px;
+            font-size: 16px;
+        }
+
+        .service-h3{
+            padding-bottom: 10px;
+            font-size: 20px;
+            color: #01b8ef;
+        }
+
+        .p_btn {
+            float: left;
+            margin: 10px auto;
+        }
+
+        .table_title_r { background:#d1dbe5; font-size:16px; }
+        .table_l{ border-left:1px #b6c4cf solid; border-top:1px #b6c4cf solid}
+    </style>
+    <script>
+
+        /**
+         * 自己发送消息添加到面版
+         **/
+        function setMyselefMessage(obj, msg) {
+            $(obj).append(msg);
+        }
+
+        /**
+         * 滚动条拉到最后
+         **/
+        function autoScrollTop() {
+            $(".chat-thread").scrollTop(10000000000000000000);
+        }
+
+
+        var Sock = function () {
+            var socket;
+            if (!window.WebSocket) {
+                window.WebSocket = window.MozWebSocket;
+            }
+
+            if (window.WebSocket) {
+                var userId = $("#userId").val();
+                //socket = new WebSocket("ws://10.10.10.200:26789/websocket?{\"userId\":\""+userId+"\",\"senderType\":\"cs\"}");//
+                socket = new WebSocket("ws://imcs.starb168.com:26789/websocket?{\"userId\":\""+userId+"\",\"senderType\":\"cs\"}");//
+                socket.onopen = onopen;
+                socket.onmessage = onmessage;
+                socket.onclose = onclose;
+            } else {
+                alert("Your browser does not support Web Socket.");
+            }
+
+            function onopen(event) {
+                console.log(event.data);
+                console.log("Web Socket opened!");
+
+            }
+
+            function onmessage(event) {
+                if(typeof(event.data)=="string") {
+                    console.log("onmessage:"+event.data);
+                    if(event.data.indexOf("{\"code\":1000")>=0){//发送成功，放入自己发送的消息
+                        var msgJson = JSON.parse(event.data);
+                        var foreignName = msgJson.foreignName;
+                        var message = $(".q4 #contentChat").val().replace(/\n/g,"<br/>");
+                        var msg = "<li class='li-child-odd' data-attr="+foreignName+">"+message+"</li>";
+                        setMyselefMessage("#convo .chat-thread",msg);
+                        autoScrollTop();
+                    }else if (event.data.indexOf("{\"code\":2003")>=0){//系统异常
+                        var data = JSON.parse(event.data);
+                        alert(data.message);
+                    }else{//回复的消息
+                        var msgJson = JSON.parse(event.data);
+                        var foreignName = msgJson.foreignName;
+                        var msg = "<li class='li-child-even' data-attr="+foreignName+">"+msgJson.message+"</li>";
+                        setMyselefMessage("#convo .chat-thread",msg);
+                        autoScrollTop();
+                    }
+
+                }else{
+                    console.log("don't string")
+
+                }
+            }
+
+            function onclose(event) {
+                console.log(event.data);
+                console.log("Web Socket closed");
+            }
+
+            function send(event) {
+                event.preventDefault();
+                if (window.WebSocket) {
+                    if (socket.readyState == WebSocket.OPEN) {
+                        var message = $(".q4 #contentChat").val().replace(/\n/g,"<br/>");
+                        //var msg = "<li class='li-child-odd'>"+message+"</li>";
+                        //setMyselefMessage("#convo .chat-thread",msg);
+                        //autoScrollTop();
+
+                        var gameLanguage = $("#gameLanguage").val();
+                        if (''== gameLanguage){
+                            gameLanguage = lang_en_US;
+                        }
+
+                        if(''==message){
+                            alert(_languageSelect(gameLanguage, "paramsException"));
+                            return;
+                        }
+
+                        var aqUniqueId = $("#aqUniqueId").val();
+                        var playerUserId = $("#playerUserId").val();
+                        var sendMessage = "{\"message\":\""+message + "\",\"aqUniqueId\":\""+aqUniqueId+ "\",\"playerUserId\":\""+playerUserId
+                            +"\",\"gameLanguage\":\"" +gameLanguage+"\",\"senderType\":\"cs\"}";
+                        socket.send(sendMessage);
+                    } else {
+                        alert("The socket is not open.");
+                    }
+                }
+            }
+
+            $(".p_btn #sub_send").click(send);
+
+            //document.forms.inputform.addEventListener('submit', send, false);
+        }
+
+        $(function () {
+            //系统账号
+            var userId = $.getUrlParam("userId");
+            $("#userId").val(userId);
+            //玩家账号
+            var playerUserId = $.getUrlParam("playerUserId");
+            $("#playerUserId").val(playerUserId);
+            var aqUniqueId = $.getUrlParam("aqUniqueId");
+            $("#aqUniqueId").val(aqUniqueId);
+            var gameCode = $.getUrlParam("gameCode");
+            $("#gameCode").val(gameCode);
+            var gameLanguage = $.getUrlParam("gameLanguage");
+            $("#gameLanguage").val(gameLanguage);
+
+            new Sock();
+
+            //autoScrollTop();
+
+            var gameLanguage = $("#gameLanguage").val();
+            if (''== gameLanguage){
+                gameLanguage = lang_zh_TW;
+            }
+            //var aqUniqueId = $("#aqUniqueId").val();
+            //var userId = $("#userId").val();
+            //玩家所有消息
+            $.ajax({
+                url: "../csChat_message",
+                data: "gameLanguage="+gameLanguage+"&gameCode="+gameCode+"&aqId="+aqUniqueId+"&userId="+playerUserId+"&senderType=cs",
+                cache: false
+            }).done(function( html ) {
+                console.log(html);
+                $( "#con_menu_2 #override_back_div" ).append(html );
+                autoScrollTop();
+            });
+
+            //详细信息
+            $.ajax({
+                url: "../csBackstage_detailChat",
+                data: "gameLanguage="+gameLanguage+"&aqId="+aqUniqueId+"&userId="+playerUserId,
+                cache: false
+            }).done(function( html ) {
+                console.log(html);
+                $( "#detail_div" ).append(html );
+            });
+        });
+        //-->
+    </script>
+</head>
+<body>
+<div id="Tab">
+
+    <div id="detail_div">
+    </div>
+
+    <!--<div class="Menubox">
+        <table id="table" class="table_l" width="520px">
+            <thead>
+            <tr class="table_title_r">
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">项目名称</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">信息</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">项目名称</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">信息</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">功能操作</td>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr class="table_title_r">
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">游戏名</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">123456789123456789</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">游戏标识</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">123456789123456789</td>
+                <td class="ALL" width="80px" style="text-align: center"></td>
+            </tr>
+            <tr class="table_title_r">
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">账号Id</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">123456789123456789</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">注册来源</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">123456789123456789</td>
+                <td class="ALL" width="80px" style="text-align: center"></td>
+            </tr>
+            <tr class="table_title_r">
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">角色名称</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">123456789123456789</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">角色Id</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">123456789123456789</td>
+                <td class="ALL" width="80px" style="text-align: center"></td>
+            </tr>
+            <tr class="table_title_r">
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';" >當前服務器</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';" colspan="3" >123456789123456789</td>
+                <td class="ALL" width="80px" style="text-align: center"></td>
+            </tr>
+            <tr class="table_title_r">
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';" >總儲值額度</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';" colspan="3">美金</td>
+                <td class="ALL" width="80px" style="text-align: center">
+                    <button type="button" style="background-color: #7a7a7a;font-size: 13px;font-family: '微软雅黑'">储值详情</button>
+                </td>
+            </tr>
+            <tr class="table_title_r">
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';" >设备</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';" ></td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">系统版本</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';"></td>
+                <td class="ALL" width="80px" style="text-align: center"></td>
+            </tr>
+            <tr class="table_title_r">
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';" >手机号码</td>
+                <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';" colspan="3">15602398623</td>
+                <td class="ALL" width="80px" style="text-align: center"></button>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>-->
+
+    <div class="Contentbox">
+        <div id="con_menu_2">
+            <input type="hidden" id="aqUniqueId" name="aqUniqueId" value="">
+            <input type="hidden" id="playerUserId" name="playerUserId" value="">
+            <input type="hidden" id="userId" name="userId" value="">
+            <input type="hidden" id="gameCode" name="gameCode" value="">
+            <input type="hidden" id="gameLanguage" name="gameLanguage" value="">
+            <div id="override_back_div">
+            </div>
+            <!--<div id="convo" data-from="Sonu Joshi">
+                <ul class="chat-thread" id="chat-thread">
+                    <li class="li-child-even">Are we meeting today? </li>
+                    <li class="li-child-even">yes, what time suits you?</li>
+                    <li class="li-child-odd">I was thinking after lunch, I have a meeting in the morning</li>
+                    <li class="li-child-odd">Are we meeting today?</li>
+                    <li class="li-child-even">yes, what time suits you?</li>
+                    <li class="li-child-even">I was thinking after lunch, I have a meeting in the morning</li>
+                    <li class="li-child-odd">Are we meeting today?</li>
+                    <li class="li-child-odd">yes, what time suits you?</li>
+                    <li class="li-child-even">I was thinking after lunch, I have a meeting in the morning</li>
+                    <li class="li-child-even">Are we meeting today?</li>
+                    <li class="li-child-odd">yes, what time suits you?</li>
+                    <li class="li-child-odd">I was thinking after lunch, I have a meeting in the morning<img src="../images/pic1.png"  alt="上海鲜花港 - 郁金香" /></li>
+                </ul>
+            </div>-->
+            <div class="q4">
+                <textarea id="contentChat" name="contentChat" class="textarea-in" autofocus="autofocus" placeholder=""></textarea>
+            </div>
+            <div class="p_btn">
+                <a id="sub_send" class="btn-confirm-send" title="追问">追问</a>
+                <a id="sub_complete" class="btn-confirm-complete" title="结束">结束</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--开启对包进行扫描-->
+    <context:annotation-config/>
+    <!-- 需要扫描的包 过滤-->
+    <context:component-scan base-package="com.mg.csbackstage.service.**" />
+    <context:component-scan base-package="com.mg.csbackstage.dao.**" />
+    <context:component-scan base-package="com.mg.csbackstage.bean.**" />
+    <context:component-scan base-package="com.mg.csbackstage.manager.**" />
+
+    <!--socket bean-->
+    <bean id="imServer" class="com.mg.csbackstage.service.NettyIMServer" init-method="run">
+        <constructor-arg value="26789" type="int"></constructor-arg>
+    </bean>
+
+
+    <!--<context:component-scan base-package="com.mg.login.pojo.**" />-->
+
+    <!-- AOP配置 -->
+    <!--<aop:aspectj-autoproxy/>-->
+
+
+    <!--<bean id="requestFactory"
+          class="org.springframework.http.client.SimpleClientHttpRequestFactory">
+        <property name="connectTimeout" value="5000" />
+        <property name="readTimeout" value="65000" />
+    </bean>
+
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <property name="requestFactory" ref="requestFactory" />
+    </bean>-->
+
+    <!-- FreeMarker环境配置 -->
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/views/" />
+    </bean>
+
+    <!--FreeMarker视图解析-->
+    <bean id="htmlViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="cache" value="true"/>
+        <property name="suffix" value=".ftl"/>
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+    </bean>
+
+    <!--ViewResolver 视图解析器-->
+    <!--用于支持Servlet、JSP视图解析-->
+    <!--<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/views/dynamic/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>-->
+
+</beans>

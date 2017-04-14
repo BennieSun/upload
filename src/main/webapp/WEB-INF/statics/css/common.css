@@ -1,0 +1,38 @@
+body {
+    color: #787878;
+    font-size: 13px;
+    font-family: "微软雅黑";
+    background: #fff;
+    padding-top: 1px;
+}
+
+.header {
+    border-top: 3px solid #35addf;
+    margin-bottom: 2px;
+    height: 67px;
+    background: #f6f6f6;
+    background: -moz-linear-gradient(top, #fff, #f6f6f6);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(1, #f6f6f6));
+}
+
+.top_info {
+    width: 1080px;
+    margin: 0 auto;
+}
+
+.top_info {
+    overflow: hidden;
+    zoom: 1;
+    padding: 0 0 0 26px;
+}
+
+.menu1, .menu2, .menu3, .menu1:hover, .menu2:hover,
+.menu3:hover, .menu1_curr, .menu2_curr,
+.menu3_curr {
+    float: left;
+    width: 112px;
+    height: 59px;
+    margin-right: 3px;
+    display: inline;
+    cursor: pointer;
+}
