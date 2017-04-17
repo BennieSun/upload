@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/csBackstage_style.css">
     <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/commConfig.js"></script>
+    <script type="text/javascript" src="js/config.js"></script>
     <title></title>
 
     <script>

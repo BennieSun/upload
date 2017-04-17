@@ -6,410 +6,41 @@
     <meta name="Keywords" content="" />
     <meta name="Description" content="" />
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/csMain.css">
     <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/commConfig.js"></script>
     <script type="text/javascript" src="js/config.js"></script>
     <title></title>
-    <style type="text/css">
-        body {
-            color: #787878;
-            font-size: 13px;
-            font-family: "微软雅黑";
-            background: #fff;
-            padding-top: 1px;
-            text-align:center;
-        }
-
-        #Tab{
-            overflow: hidden;
-            zoom: 1;
-            margin: 0;
-            padding: 0;
-            width: 820px;
-            height:552px;
-        }
-
-        .Menubox {
-            float: left;
-        }
-
-        .main_menu{
-            float: right;
-            width: 45px;
-        }
-
-        .Contentbox{
-            float: right;
-            border-left: 1px solid #c7c7c7;
-            width: 745px;
-            height: auto !important;
-            height: 500px;
-            min-height: 500px;
-        }
-
-        #con_menu_1{
-            float: left;
-            width: 660px;
-        }
-
-
-        .questions-top {
-            float: left;
-            margin-left: 40px;
-            margin-bottom: 20px;
-            display: inline;
-            width: 580px;
-        }
-        .questions-top li {
-            float: left;
-            margin-top: 25px;
-            width: 100%;
-        }
-        .left-q {
-            float: left;
-            width: 280px;
-        }
-        .right-q {
-            float: right;
-            width: 280px;
-            font-size: 18px;
-            color: #484848;
-        }
-        .q1 {
-            float: left;
-            width: 110px;
-            text-align: right;
-            line-height: 24px;
-            font-size: 18px;
-            color: #484848;
-        }
-
-        .q3 {
-            float: right;
-            width: 430px;
-        }
-
-        .q4 {
-            float: left;
-            width: 400px;
-            margin: 10px auto auto 10px;
-        }
-
-        .textarea-in {
-            float: left;
-            padding: 5px;
-            resize: none;
-            outline: none;
-            border-radius: 4px;
-            border: 1px solid #cfcfcf;
-            -webkit-box-sizing: border-box;
-            width: 100%;
-            height: 120px;
-            font-size: 14px;
-            color: #8c8c8c;
-        }
-        .related-list {
-            float: left;
-            width: 300px;
-        }
-        .related-list li {
-            float: left;
-            margin-top: 10px;
-            width: 100%;
-            line-height: 24px;
-            font-size: 16px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .related-list li a {
-            color: #35addf;
-        }
-        .photo-upload {
-            float: right;
-            margin-top: 10px;
-            width: 140px;
-        }
-        .photo {
-            float: left;
-            position: relative;
-            margin-left: 13px;
-            display: inline;
-            border: 2px solid #e8e8e8;
-            border-radius: 4px;
-            width: 106px;
-            height: 70px;
-        }
-        .photo p {
-            text-align: center;
-            line-height: 70px;
-            color: #7a7a7a;
-        }
-        .photo img {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 106px;
-            height: 70px;
-        }
-        .upload {
-            float: left;
-            position: relative;
-            margin-left: 13px;
-            display: inline;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            border-radius: 6px;
-            width: 110px;
-            height: 26px;
-            line-height: 26px;
-            text-align: center;
-            background: #5fd0ff;
-            color: #fff;
-        }
-        .btn-add {
-            float: left;
-            border: none;
-            border-radius: 6px;
-            width: 100%;
-            height: 30px;
-            line-height: 30px;
-            font-size: 18px;
-            background: #5fd0ff;
-            color: #fff;
-        }
-        .file-up {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 30px;
-            filter:alpha(opacity:0);
-            opacity: 0;
-            cursor: pointer;
-        }
-        .upload-tips {
-            float: left;
-            width: 100%;
-            text-align: center;
-            font-size: 16px;
-            color: #848484;
-        }
-        .input-box {
-            float: left;
-            position: relative;
-            border: 1px solid #d5d5d5;
-            border-radius: 8px;
-            width: 300px;
-            height: 28px;
-        }
-        .area {
-            float: left;
-            position: relative;
-            margin-left: 5px;
-            border-right: 1px solid #d5d5d5;
-            display: inline;
-            width: 100px;
-            height: 28px;
-            line-height: 28px;
-        }
-        .select-area {
-            float: left;
-            outline: none;
-            border: none;
-            width: 100%;
-            height: 28px;
-            line-height: 28px;
-            direction: ltr;
-            appearance: none;
-            -moz-appearance: none;
-            -webkit-appearance: none;
-            font-size: 15px;
-            color: #6b6b6b;
-        }
-        .select-area::-ms-expand {
-            display: none;
-        }
-        .input-text1 {
-            float: left;
-            margin-left: 10px;
-            display: inline;
-            border: none;
-            outline: none;
-            width: 150px;
-            height: 28px;
-            line-height: 28px;
-            font-size: 14px;
-            color: #8c8c8c;
-        }
-        .input-text2 {
-            float: left;
-            margin-left: 10px;
-            display: inline;
-            border: none;
-            outline: none;
-            width: 260px;
-            height: 28px;
-            line-height: 28px;
-            font-size: 14px;
-            color: #8c8c8c;
-        }
-        .q-tips {
-            float: left;
-            width: 300px;
-            font-size: 16px;
-            text-align: center;
-            color: #868686;
-        }
-
-        .service-tit{
-            float: left;
-            position: relative;
-            margin-left: 55px;
-            padding-bottom: 10px;
-            display: inline;
-            border-bottom: 1px solid #e5e5e5;
-            width: 550px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: 700;
-            color: #01b8ef;
-        }
-
-
-
-
-
-
-
-
-
-
-        a:link, a:visited {
-            font-size: 12px;
-            color: #666;
-            text-decoration: none;
-        }
-
-        a:hover {
-            color: #ff0000;
-            text-decoration: underline;
-        }
-
-
-
-        .Menubox ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-
-        .Menubox ul li {
-            line-height: 100%;
-            display: block;
-            cursor: pointer;
-            width: 20px;
-            text-align: center;
-            color: #0c0c0c;
-            font-weight: bold;
-            max-width:0;
-            padding: 0;
-            height: 184px;
-            font-size: 18px;
-        }
-
-        .Menubox .li-tit{
-            text-align: center;
-            margin: 10px auto;
-        }
-
-        .Menubox ul li.hover {
-            background: #fff;
-            color: red;
-            text-align: center;
-            font-size: 18px;
-            font-weight: 700;
-            margin: 10px auto;
-            width: 45px;
-        }
-
-
-        .btn-confirm{
-            margin: 0 auto;
-            border-radius: 8px;
-            display: block;
-            overflow: hidden;
-            width: 142px;
-            height: 36px;
-            line-height: 36px;
-            text-align: center;
-            font-size: 20px;
-            background: #4fd2c2;
-        }
-
-        .btn-confirm-send{
-            margin: 10px auto auto 10px;
-            border-radius: 8px;
-            display: block;
-            overflow: hidden;
-            width: 142px;
-            height: 36px;
-            line-height: 36px;
-            text-align: center;
-            font-size: 20px;
-            background: #4fd2c2;
-        }
-
-        .btn-confirm-complete{
-            margin: 10px auto auto 10px;
-            border-radius: 8px;
-            display: block;
-            overflow: hidden;
-            width: 142px;
-            height: 36px;
-            line-height: 36px;
-            text-align: center;
-            font-size: 20px;
-            background: #4fd2c2;
-        }
-
-        .contact-box{
-            float: left;
-            margin-right: 4px;
-            display: inline;
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 10px;
-            width: 745px;
-            height: 300px;
-            font-size: 16px;
-        }
-
-        .service-h3{
-            padding-bottom: 10px;
-            font-size: 20px;
-            color: #01b8ef;
-        }
-
-        .p_btn {
-            float: left;
-            margin: 10px auto;
-        }
-
-    </style>
     <script>
         /**
          * tab切换
          **/
         function setTab(name,cursel,n){
             for(i=1;i<=n;i++){
+                if (cursel==1){
+                    var aqId = $('#aqUniqueId').val();
+                    var gameLanguage = $('#gameLanguage').val();
+                    if(''!=aqId || parseInt(aqId)>0) {
+                        alert(_languageSelect(gameLanguage, "aqUniqueIdIsExist"));
+                        return;
+                    }
+                }
+                if (cursel==2){
+                    var aqId = $('#aqUniqueId').val();
+                    var gameLanguage = $('#gameLanguage').val();
+                    if(''==aqId || parseInt(aqId)<=0) {
+                        alert(_languageSelect(gameLanguage, "aqUniqueIdIsNull"));
+                        return;
+                    }
+
+                    autoScrollTop();
+                }
+
                 var menu=document.getElementById(name+i);
                 var con=document.getElementById("con_"+name+"_"+i);
                 menu.className=i==cursel?"hover li-tit":"li-tit";
                 con.style.display=i==cursel?"block":"none";
-                if (i==2){
-                    autoScrollTop();
-                }
             }
         }
 
@@ -424,7 +55,7 @@
          * 滚动条拉到最后
          **/
         function autoScrollTop() {
-            $(".chat-thread").scrollTop(10000000000000000000);
+            $(".chat-thread").scrollTop($(".chat-thread")[0].scrollHeight);
         }
 
 
@@ -461,19 +92,20 @@
                         var msg = "<li class='li-child-odd' data-attr="+foreignName+">"+message+"</li>";
                         setMyselefMessage("#convo .chat-thread",msg);
                         autoScrollTop();
-                    }else if (event.data.indexOf("{\"code\":2003")>=0){//系统异常
-                        var data = JSON.parse(event.data);
-                        alert(data.message);
-                    }else{//回复的消息
+                        //移除发送的消息
+                        $(".q4 #contentChat").val("");
+                    }else if (event.data.indexOf("{\"code\":1001")>=0){//回复的消息
                         var msgJson = JSON.parse(event.data);
                         var foreignName = msgJson.foreignName;
                         var msg = "<li class='li-child-even' data-attr="+foreignName+">"+msgJson.message+"</li>";
                         setMyselefMessage("#convo .chat-thread",msg);
                         autoScrollTop();
+                    }else {
+                        var data = JSON.parse(event.data);
+                        alert(data.message);
                     }
                 }else{
                     console.log("don't string")
-
                 }
             }
 
@@ -491,14 +123,28 @@
                         //setMyselefMessage("#convo .chat-thread",msg);
                         //autoScrollTop();
                         var gameLanguage = $("#gameLanguage").val();
-                        if (''== gameLanguage){
+                        /*if (''== gameLanguage){
                             gameLanguage = lang_en_US;
-                        }
+                        }*/
 
-                        if(''==message){
+                        /*if(''==message){
                             alert(_languageSelect(gameLanguage, "paramsException"));
                             return;
+                        }*/
+
+                        if(''==message.replace(/\<br\/\>/g,"").replace(/\s/g,"")){
+                            alert(_languageSelect(gameLanguage,"descriptionIsNull"));
+                            $(".q4 #contentChat").val('');
+                            return;
                         }
+
+                        if($.getByteLength(message.replace('<br/>'," "))>300){
+                            alert(_languageSelect(gameLanguage,"descriptionIsToLong"));
+                            return;
+                        }
+
+                        message = message.replace(/(^\s*)|(\s*$)/g,'');
+
                         var aqUniqueId = $("#aqUniqueId").val();
                         if(''==aqUniqueId){
                             alert(_languageSelect(gameLanguage, "aqUniqueIdIsNull"));
@@ -522,9 +168,9 @@
 
 
             var gameLanguage = $("#gameLanguage").val();
-            if (''== gameLanguage){
+            /*if (''== gameLanguage){
                 gameLanguage = lang_en_US;
-            }
+            }*/
             var aqUniqueId = $("#aqUniqueId").val();
             var userId = $("#userId").val();
             var gameCode = $("#gameCode").val();
@@ -534,7 +180,11 @@
                 cache: false
             }).done(function( html ) {
                 console.log(html);
-                $( "#con_menu_2 #override_div" ).append(html );
+                $( "#con_menu_2 #chat-thread" ).append(html );
+
+                if(''!=aqUniqueId || parseInt(aqUniqueId)>0) {
+                    setTab('menu',2,3);
+                }
             });
 
             $('#sub').click(function () {
@@ -563,6 +213,19 @@
                 var tel = $('#select-area').val();
                 tel = tel.substring(tel.lastIndexOf("+"));
 
+                if(''==message.replace(/\<br\/\>/g,"").replace(/\s/g,"")){
+                    alert(_languageSelect(gameLanguage,"descriptionIsNull"));
+                    $(".q3 #content").val('');
+                    return;
+                }
+
+                if($.getByteLength(message.replace('<br/>'," "))>300){
+                    alert(_languageSelect(gameLanguage,"descriptionIsToLong"));
+                    return;
+                }
+
+                message = message.replace(/(^\s*)|(\s*$)/g,'');
+
                 var params = "ip="+ip+"&gameCode="+gameCode+"&packageName="+packageName+"&serverCode="+serverCode
                         +"&userId="+userId+"&uniqueId="+uniqueId+"&mac="+mac+"&imei="+imei+"&androidId="+androidId
                         +"&adid="+adid+"&idfa="+idfa+"&uuid="+uuid+"&uuid="+uuid+"&roleName=" +roleName
@@ -576,32 +239,45 @@
                     data: params,
                     cache: false
                 }).done(function(e) {
-                    console.log(e);
+                    //console.log(e);
 
                     var json = JSON.parse(e);
 
                     if(1000 == json.code) {
+                        $("#aqUniqueId").val(json.aqUniqueId);
                         var msg = "<li class='li-child-odd'>" + $(".q3 #content").val().replace(/\n/g, "<br/>") + "</li>";
                         setMyselefMessage("#convo .chat-thread", msg);
-                        autoScrollTop();
 
-                        $("#aqUniqueId").val(json.aqUniqueId);
+                        setTab('menu',2,3);
+                        //autoScrollTop();
                     }
 
                     alert(json.message);
 
                 });
 
-                /*document.getElementById("question_form").submit(function (e) {
-                    alert("Submitted");
-                    console.log(e);
 
-                    var msg = "<li class='li-child-odd'>" + $(".q3 #content").val().replace(/\n/g, "<br/>") + "</li>";
-                    setMyselefMessage("#convo .chat-thread", msg);
-                    autoScrollTop();
-                });*/
             });
 
+            $('#sub_complete').click(function () {
+                var r=confirm(_languageSelect(gameLanguage, "confirmEnd"));
+                if (r==true){
+                    $.ajax({
+                        url: "../csChat_end",
+                        data: "gameLanguage="+gameLanguage+"&aqId="+aqUniqueId+"&userId="+userId+"&gameCode="+gameCode,
+                        cache: false
+                    }).done(function( data ) {
+                        var msgJson = JSON.parse(data);
+                        if(1000 == msgJson.code){
+                            $('#aqUniqueId').val("");
+                            setTab('menu',1,3);
+                            return;
+                        }
+                        alert(msgJson.message);
+                    });
+                }
+
+            });
         });
         //-->
     </script>
@@ -714,23 +390,11 @@
         <div id="con_menu_2" style="display:none">
             <input type="hidden" id="aqUniqueId" name="aqUniqueId" value="${aqId!''}">
             <div id="override_div">
+                <div id="convo" data-from="Sonu Joshi">
+                    <ul class="chat-thread" id="chat-thread">
+                    </ul>
+                </div>
             </div>
-            <#--<div id="convo" data-from="Sonu Joshi">
-                <ul class="chat-thread" id="chat-thread">
-                    <li class="li-child-even">Are we meeting today? </li>
-                    <li class="li-child-even">yes, what time suits you?</li>
-                    <li class="li-child-odd">I was thinking after lunch, I have a meeting in the morning</li>
-                    <li class="li-child-odd">Are we meeting today?</li>
-                    <li class="li-child-even">yes, what time suits you?</li>
-                    <li class="li-child-even">I was thinking after lunch, I have a meeting in the morning</li>
-                    <li class="li-child-odd">Are we meeting today?</li>
-                    <li class="li-child-odd">yes, what time suits you?</li>
-                    <li class="li-child-even">I was thinking after lunch, I have a meeting in the morning</li>
-                    <li class="li-child-even">Are we meeting today?</li>
-                    <li class="li-child-odd">yes, what time suits you?</li>
-                    <li class="li-child-odd">I was thinking after lunch, I have a meeting in the morning<img src="images/pic1.png"  alt="上海鲜花港 - 郁金香" /></li>
-                </ul>
-            </div>-->
             <div class="q4">
                 <textarea id="contentChat" name="contentChat" class="textarea-in" autofocus="autofocus" placeholder=""></textarea>
             </div>

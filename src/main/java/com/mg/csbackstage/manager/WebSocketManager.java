@@ -104,6 +104,7 @@ public class WebSocketManager {
         /**区分信息来源**/
         UsersPojo usersPojo = null;
         int senderTypeNum = 0;
+        String chatIp = null;
         if (StringUtils.isEmpty(senderType) || CsEnumUtils.SenderType.player.toString().equals(senderType)) {//玩家
             usersPojo = new UsersPojo();
             usersPojo.setUserId(CsPlayerUserSessionManager.getUserIdByChannelId(ctx.channel().id()));
@@ -140,9 +141,10 @@ public class WebSocketManager {
             return;
         }
 
-        CsAskQuestionsBean csAskQuestionsBean = facAskQuestionsService.findAQAsFac(usersPojo.getUserId());
-        if (null == csAskQuestionsBean || csAskQuestionsBean.getId()!=Long.valueOf(aqId)){
-            logger.info("aqUniqueId is not this userId,userId="+usersPojo.getUserId());
+        CsAskQuestionsBean csAskQuestionsBean = facAskQuestionsService.findAQByAqIdAsFac(
+                Long.valueOf(aqId), CsEnumUtils.AskQuestionsFlag.processing.getStatusNum());
+        if (null == csAskQuestionsBean || csAskQuestionsBean.getUserId()!=Long.valueOf(usersPojo.getUserId())){
+            logger.info("aqUniqueId: "+aqId+", not exist userId,userId="+usersPojo.getUserId());
             return;
         }
 
@@ -156,6 +158,13 @@ public class WebSocketManager {
         int returnId = facChatService.insertAsFac(csChatBean);
 
         if (returnId>0){
+            String remoteAddress = ctx.channel().remoteAddress().toString().replace("/","");
+            String ip = remoteAddress.substring(0,remoteAddress.lastIndexOf(":"));
+            //更新最新消息
+            facAskQuestionsService.updateAQByIdAsFac(Long.valueOf(aqId),
+                    new String[]{"modifiedTime","modifiedIp",},
+                    new Object[]{createTime, ip});
+
             //通知信息接收人
             if (CsEnumUtils.SenderType.player.getStatusNum() == senderTypeNum) {//发送者为玩家 -> 管理员
                 //客服在线
@@ -169,6 +178,9 @@ public class WebSocketManager {
                         StarpyAccountBean starpyAccountBean = facStarpyAccountservice.findAccountAsFac(tempPlayerUserId);
                         //客服管理员
                         if (starpyAccountBean.getJurisdiction() == CsEnumUtils.Jurisdiction.csAdmin.getStatusNum()){
+                            responeJsonTemp.put("code", ResponseCodeConst.IS_CHAT_SUCCESS);
+                            responeJsonTemp.put("playerUserId", CsPlayerUserSessionManager.getUserIdByChannelId(ctx.channel().id()));
+                            responeJsonTemp.put("gameCode", gameCode);
                             responeJsonTemp.put("foreignName", CsPlayerUserSessionManager.getSessionByChannelId(ctx.channel().id()).usersPojo().getForeignName());
                             responeJsonTemp.put("message", message);
                             entry.getValue().channel().writeAndFlush(new TextWebSocketFrame(responeJsonTemp.toJSONString()));
@@ -176,6 +188,9 @@ public class WebSocketManager {
                             List<CsJurisdictionGamesBean> jurisdictionList = facJurisdictionGamesService.findJurisdictionGamesAsFac(tempPlayerUserId);
                             for (CsJurisdictionGamesBean bean:jurisdictionList){
                                 if (bean.getGameCode().equals(gameCode)){
+                                    responeJsonTemp.put("code", ResponseCodeConst.IS_CHAT_SUCCESS);
+                                    responeJsonTemp.put("playerUserId", CsPlayerUserSessionManager.getUserIdByChannelId(ctx.channel().id()));
+                                    responeJsonTemp.put("gameCode", gameCode);
                                     responeJsonTemp.put("foreignName", CsPlayerUserSessionManager.getSessionByChannelId(ctx.channel().id()).usersPojo().getForeignName());
                                     responeJsonTemp.put("message", message);
                                     entry.getValue().channel().writeAndFlush(new TextWebSocketFrame(responeJsonTemp.toJSONString()));
@@ -191,6 +206,7 @@ public class WebSocketManager {
                 UserSession userSession = (UserSession) CsPlayerUserSessionManager.getSessionByUserId(Long.valueOf(playerUserId));
                 if (null != userSession && null != userSession.channel()){
                     JSONObject responeJsonTemp = new JSONObject();
+                    responeJsonTemp.put("code", ResponseCodeConst.IS_CHAT_SUCCESS);
                     responeJsonTemp.put("foreignName", CsBackstageUserSessionManager.getSessionByChannelId(ctx.channel().id()).usersPojo().getForeignName());
                     responeJsonTemp.put("message", message);
                     userSession.channel().writeAndFlush(new TextWebSocketFrame(responeJsonTemp.toJSONString()));

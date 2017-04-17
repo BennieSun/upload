@@ -165,6 +165,10 @@ public class CsPlayerController {
         String accessToken = initMap.get("accessToken");
         String loginTimestamp = initMap.get("loginTimestamp");
 
+        String message = initMap.get("message");//'消息'
+        String tel = initMap.get("tel");//'电话'
+        String imgUrl = initMap.get("imgUrl");//'图片地址'
+
         String langName = ServerConfig.getInstance().getLang();
         if (StringUtils.isNotEmpty(gameLanguage)) {
             langName = gameLanguage;
@@ -177,6 +181,14 @@ public class CsPlayerController {
                     +",accessToken="+accessToken+",loginTimestamp="+loginTimestamp);
             jsonObject.put("code", ResponseCodeConst.PARAMS_EXCEPTION);
             jsonObject.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.PARAMS_EXCEPTION));
+            return jsonObject.toJSONString();
+        }
+
+        //验证字符长度
+        if (GlobalHelper.StringHelper.length(message.replace("</br>"," "))>300){
+            logger.info("message is to long");
+            jsonObject.put("code", ResponseCodeConst.MSG_TO_LONG);
+            jsonObject.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.MSG_TO_LONG));
             return jsonObject.toJSONString();
         }
 

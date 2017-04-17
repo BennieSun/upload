@@ -35,6 +35,14 @@ public class CsAskQuestionsService {
         return askQuestionsDao.findAQById(aqId);
     }
 
+    public CsAskQuestionsBean findAQById(Long aqId, int flag) {
+        return askQuestionsDao.findAQById(aqId, flag);
+    }
+
+    public int updateAQById(Long aqId, String[] keys, Object[] values) {
+        return askQuestionsDao.updateAQById(aqId, keys, values);
+    }
+
     /**
      * 根据状态&gameCode获取问题列表
      * @param flag 状态（进行中、结束）
@@ -54,8 +62,18 @@ public class CsAskQuestionsService {
         return askQuestionsDao.findAllAQByGameCodes(flag);
     }
 
-    public CsAskQuestionsBean findAQAsFac(Long userId) {
+    public CsAskQuestionsBean findAQByUserIdAsFac(Long userId, int flag) {
         CsAskQuestionsDao csAskQuestionsDao = ManagerFactory.getInstance("CsAskQuestionsDao",CsAskQuestionsDao.class);
-        return csAskQuestionsDao.findAQAsFac(userId);
+        return csAskQuestionsDao.findAQByUserIdAsFac(userId, flag);
+    }
+
+    public CsAskQuestionsBean findAQByAqIdAsFac(Long aqId, int flag) {
+        CsAskQuestionsDao csAskQuestionsDao = ManagerFactory.getInstance("CsAskQuestionsDao",CsAskQuestionsDao.class);
+        return csAskQuestionsDao.findAQByAqIdAsFac(aqId, flag);
+    }
+
+    public int updateAQByIdAsFac(Long aqId, String[] keys, Object[] values) {
+        CsAskQuestionsDao csAskQuestionsDao = ManagerFactory.getInstance("CsAskQuestionsDao",CsAskQuestionsDao.class);
+        return csAskQuestionsDao.updateAQByIdAsFac(aqId, keys, values);
     }
 }

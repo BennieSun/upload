@@ -36,6 +36,9 @@ public class ResponseMsgConst {
             case ResponseCodeConst.IS_SUCCESS:/**成功**/
                 responseMsg = LangManager.getString(langNameLocal,"responseMsg","isSuccessMsg");
                 break;
+            case ResponseCodeConst.IS_CHAT_SUCCESS:/**聊天发送成功**/
+                responseMsg = LangManager.getString(langNameLocal,"responseMsg","isChatSuccessMsg");
+                break;
             case ResponseCodeConst.REPEAT_ASK_QUESTIONS:/**重复提问**/
                 responseMsg = LangManager.getString(langNameLocal,"responseMsg","repeatAskQuestionsMsg");
                 break;
@@ -53,7 +56,10 @@ public class ResponseMsgConst {
             case ResponseCodeConst.SIGN_ERROR:/**签名错误**/
                 responseMsg = LangManager.getString(langNameLocal,"responseMsg","signErrorMsg");
                 break;
-            case ResponseCodeConst.SYSTEM_EXCEPTION:/**签名错误**/
+            case ResponseCodeConst.DATA_CHECK_EXCEPTION:/**核对异常**/
+                responseMsg = LangManager.getString(langNameLocal,"responseMsg","dataCheckExceptionMsg");
+                break;
+            case ResponseCodeConst.SYSTEM_EXCEPTION:/**系统错误**/
                 responseMsg = LangManager.getString(langNameLocal,"responseMsg","systemExceptionMsg");
                 break;
             default:

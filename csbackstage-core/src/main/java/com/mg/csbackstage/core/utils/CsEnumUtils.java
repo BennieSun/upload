@@ -45,13 +45,13 @@ public class CsEnumUtils {
     /**
      * 问题状态（进行中、结束）
      */
-    public enum AskQuestionsFlay{
+    public enum AskQuestionsFlag {
         processing(0),// 进行中
         end(1);//结束
 
         private final int stateNum;
 
-        AskQuestionsFlay(int statenum){
+        AskQuestionsFlag(int statenum){
             this.stateNum = statenum;
         }
         public int getStatusNum() {

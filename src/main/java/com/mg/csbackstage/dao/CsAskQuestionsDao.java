@@ -53,16 +53,57 @@ public class CsAskQuestionsDao {
         return askQuestionsBean.SPRead().fetchAll(sb.toString());
     }
 
-
-    public CsAskQuestionsBean findAQAsFac(Long userId) {
-        CsAskQuestionsBean csAskQuestionsBean = ManagerFactory.getInstance(
-                "CsAskQuestionsBean",CsAskQuestionsBean.class);
-        return csAskQuestionsBean.SPRead().fetchOne(
-                "select * from t_cs_ask_questions where userId=? and flag=0",userId);
-    }
-
     public CsAskQuestionsBean findAQById(Long aqId) {
         return askQuestionsBean.SPRead().fetchOne(
                 "select * from t_cs_ask_questions where id=?",aqId);
+    }
+
+    public CsAskQuestionsBean findAQById(Long aqId, int flag) {
+        return askQuestionsBean.SPRead().fetchOne(
+                "select * from t_cs_ask_questions where id=? and flag=?",aqId, flag);
+    }
+
+    public int updateAQById(Long aqId, String[] keys, Object[] values) {
+        StringBuilder sb = new StringBuilder("update t_cs_ask_questions set ");
+        String common = "";
+        for(int i=0;i<keys.length;i++){
+            sb.append(common);
+            sb.append(keys[i]);
+            sb.append("='");
+            sb.append(values[i]);
+            common = "',";
+        }
+        sb.append("' where id = ?");
+        return askQuestionsBean.SP().executeUpdate(sb.toString(), aqId);
+    }
+
+    public CsAskQuestionsBean findAQByUserIdAsFac(Long userId, int flag) {
+        CsAskQuestionsBean csAskQuestionsBean = ManagerFactory.getInstance(
+                "CsAskQuestionsBean",CsAskQuestionsBean.class);
+        return csAskQuestionsBean.SPRead().fetchOne(
+                "select * from t_cs_ask_questions where userId=? and flag=?",userId, flag);
+    }
+
+    public CsAskQuestionsBean findAQByAqIdAsFac(Long aqId, int flag) {
+        CsAskQuestionsBean csAskQuestionsBean = ManagerFactory.getInstance(
+                "CsAskQuestionsBean",CsAskQuestionsBean.class);
+        return csAskQuestionsBean.SPRead().fetchOne(
+                "select * from t_cs_ask_questions where id=? and flag=?",aqId, flag);
+    }
+
+    public int updateAQByIdAsFac(Long aqId, String[] keys, Object[] values) {
+        CsAskQuestionsBean csAskQuestionsBean = ManagerFactory.getInstance(
+                "CsAskQuestionsBean",CsAskQuestionsBean.class);
+        StringBuilder sb = new StringBuilder("update t_cs_ask_questions set ");
+        String common = "";
+        for(int i=0;i<keys.length;i++){
+            sb.append(common);
+            sb.append(keys[i]);
+            sb.append("='");
+            sb.append(values[i]);
+            common = "',";
+        }
+        sb.append("' where id = ?");
+        return csAskQuestionsBean.SP().executeUpdate(sb.toString(), aqId);
     }
 }

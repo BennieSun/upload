@@ -1,7 +1,11 @@
 package com.mg.csbackstage.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.mg.csbackstage.bean.CsAskQuestionsBean;
 import com.mg.csbackstage.bean.CsChatBean;
+import com.mg.csbackstage.constants.ResponseCodeConst;
+import com.mg.csbackstage.constants.ResponseMsgConst;
+import com.mg.csbackstage.core.commons.CommonUtils;
 import com.mg.csbackstage.core.utils.CsEnumUtils;
 import com.mg.csbackstage.manager.CsPlayerManager;
 import com.mg.csbackstage.manager.RequestApplicationManager;
@@ -15,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -115,4 +120,54 @@ public class CsChatController {
         mav.addObject("csChatDetailList", CsChatDetailPojoList);
         return mav;
     }
+
+    @RequestMapping(value = {"/csChat_end", "/csChat_end.web"}, method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public String chatEnd(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception{
+        ParamLogMessage plm = GlobalHelper.RequestParameterHelper.loadRequestMessage(httpServletRequest, true, true);
+        JSONObject jsonObject = new JSONObject();
+
+        String ip = CommonUtils.getIpAddr(httpServletRequest);
+
+        Map<String,String> initMap = plm.getParamsMap();
+        String gameLanguage = initMap.get("gameLanguage");//提示语言信息
+        String aqId = initMap.get("aqId");//问题唯一id
+        String userId = initMap.get("userId");//玩家userId
+        String gameCode = initMap.get("gameCode");//游戏标识
+
+        String langName = ServerConfig.getInstance().getLang();
+        if (StringUtils.isNotEmpty(gameLanguage)) {
+            langName = gameLanguage;
+        }
+
+        if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(aqId) || StringUtils.isEmpty(gameCode)){
+            logger.info("params is exception：userId="+userId+",aqId="+aqId+",gameCode:"+gameCode);
+            jsonObject.put("code", ResponseCodeConst.PARAMS_EXCEPTION);
+            jsonObject.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.PARAMS_EXCEPTION));
+            return jsonObject.toJSONString();
+        }
+
+        CsAskQuestionsBean csAskQuestionsBean = playerManager.getQuestions(Long.valueOf(aqId));
+        if (null == csAskQuestionsBean || csAskQuestionsBean.getUserId() != Long.valueOf(userId)
+                || !gameCode.equals(csAskQuestionsBean.getGameCode())){
+            logger.info("aqId："+aqId+",does not exist params userId="+userId
+                    +",Check："+csAskQuestionsBean.getUserId() != Long.valueOf(userId)
+                    +",gameCode:"+gameCode+"，Check："+!gameCode.equals(csAskQuestionsBean.getGameCode()));
+            jsonObject.put("code", ResponseCodeConst.DATA_CHECK_EXCEPTION);
+            jsonObject.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.DATA_CHECK_EXCEPTION));
+            return jsonObject.toJSONString();
+        }
+
+        int returnCount = playerManager.updateChatEnd(Long.valueOf(aqId), ip, GlobalHelper.currentTimestamp());
+        if (returnCount > 0){
+            jsonObject.put("code", ResponseCodeConst.IS_SUCCESS);
+            jsonObject.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.IS_SUCCESS));
+            return jsonObject.toJSONString();
+        }
+
+        jsonObject.put("code", ResponseCodeConst.SYSTEM_EXCEPTION);
+        jsonObject.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.SYSTEM_EXCEPTION));
+        return jsonObject.toJSONString();
+    }
+
 }

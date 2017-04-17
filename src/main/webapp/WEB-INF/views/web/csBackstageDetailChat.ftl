@@ -2,6 +2,10 @@
     <table id="table" class="table_l" width="520px">
         <thead>
         <tr class="table_title_r">
+            <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">新消息</td>
+            <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';" colspan="4"><span id="new_message_count" style="color: red">0</span>条</td>
+        </tr>
+        <tr class="table_title_r">
             <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">项目名称</td>
             <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">信息</td>
             <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">项目名称</td>

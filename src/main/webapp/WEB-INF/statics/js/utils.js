@@ -14,5 +14,22 @@
         return data;
     }
 
+    /**
+     * 返回字符的字节长度（汉字算2个字节）
+     * @param {string}
+     * @returns {number}
+     */
+
+    $.getByteLength = function (val) {
+        var len = 0;
+        for (var i = 0; i < val.length; i++) {
+            if (val[i].match(/[^x00-xff]/ig) != null) //全角
+                len += 2;
+            else
+                len += 1;
+        };
+        return len;
+    }
+
 })(jQuery);
 

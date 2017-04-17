@@ -130,7 +130,16 @@ public class CsPlayerManager {
      * @return
      */
     public CsAskQuestionsBean getQuestions(Long userId, String gameCode){
-        return askQuestionsService.findAQByUserId(userId, gameCode, CsEnumUtils.AskQuestionsFlay.processing.getStatusNum());
+        return askQuestionsService.findAQByUserId(userId, gameCode, CsEnumUtils.AskQuestionsFlag.processing.getStatusNum());
+    }
+
+    /**
+     * 未完成的问题
+     * @param aqId
+     * @return
+     */
+    public CsAskQuestionsBean getQuestions(Long aqId){
+        return askQuestionsService.findAQById(aqId, CsEnumUtils.AskQuestionsFlag.processing.getStatusNum());
     }
 
     /**
@@ -142,7 +151,24 @@ public class CsPlayerManager {
         return csChatService.findChatList(aqId);
     }
 
+    /**
+     * 获取管理员账号bean
+     * @param userId
+     * @return
+     */
     public StarpyAccountBean getAccount(Long userId) {
         return starpyAccountservice.findAccount(userId);
+    }
+
+    /**
+     * 结束问题
+     * @param aqId
+     * @param ip
+     * @param currentTime
+     * @return
+     */
+    public int updateChatEnd(Long aqId, String ip, int currentTime) {
+        return askQuestionsService.updateAQById(aqId, new String[]{"endTime","endIp","flag"},
+                new Object[]{currentTime, ip, CsEnumUtils.AskQuestionsFlag.end.getStatusNum()});
     }
 }

@@ -65,9 +65,9 @@ public class CsBackstageManager {
      */
     public List<CsAskQuestionsBean> getAllAQAsProcessing(String... gameCode) {
         if (null == gameCode || gameCode.length<=0){
-            return csAskQuestionsService.findAllAQByGameCodes(CsEnumUtils.AskQuestionsFlay.processing.getStatusNum());
+            return csAskQuestionsService.findAllAQByGameCodes(CsEnumUtils.AskQuestionsFlag.processing.getStatusNum());
         }else {
-            return csAskQuestionsService.findAllAQByGameCodes(CsEnumUtils.AskQuestionsFlay.processing.getStatusNum(),
+            return csAskQuestionsService.findAllAQByGameCodes(CsEnumUtils.AskQuestionsFlag.processing.getStatusNum(),
                     gameCode);
         }
     }

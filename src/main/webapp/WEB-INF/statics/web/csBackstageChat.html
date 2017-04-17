@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <script type="text/javascript" src="../js/jquery.min.js"></script>
     <script type="text/javascript" src="../js/utils.js"></script>
+    <script type="text/javascript" src="../js/commConfig.js"></script>
     <script type="text/javascript" src="../js/config.js"></script>
     <title></title>
     <style type="text/css">
@@ -294,7 +295,6 @@
 
         a:hover {
             color: #ff0000;
-            text-decoration: underline;
         }
 
 
@@ -360,6 +360,7 @@
             text-align: center;
             font-size: 20px;
             background: #4fd2c2;
+            cursor: pointer;
         }
 
         .btn-confirm-complete{
@@ -373,6 +374,7 @@
             text-align: center;
             font-size: 20px;
             background: #4fd2c2;
+            cursor: pointer;
         }
 
         .contact-box{
@@ -414,7 +416,7 @@
          * 滚动条拉到最后
          **/
         function autoScrollTop() {
-            $(".chat-thread").scrollTop(10000000000000000000);
+            $(".chat-thread").scrollTop($(".chat-thread")[0].scrollHeight);
         }
 
 
@@ -451,17 +453,27 @@
                         var msg = "<li class='li-child-odd' data-attr="+foreignName+">"+message+"</li>";
                         setMyselefMessage("#convo .chat-thread",msg);
                         autoScrollTop();
-                    }else if (event.data.indexOf("{\"code\":2003")>=0){//系统异常
+                        //移除发送的消息
+                        $(".q4 #contentChat").val("");
+                    }else if (event.data.indexOf("{\"code\":1001")>=0){//回复的消息
+                        var msgJson = JSON.parse(event.data);
+                        var playerUserId = $("#playerUserId").val();
+                        var gameCode = $("#gameCode").val();
+                        //後台打開的聊天界面是消息發送者的介面
+                        if (playerUserId == msgJson.playerUserId && gameCode==msgJson.gameCode){
+                            var foreignName = msgJson.foreignName;
+                            var msg = "<li class='li-child-even' data-attr="+foreignName+">"+msgJson.message+"</li>";
+                            setMyselefMessage("#convo .chat-thread",msg);
+                            autoScrollTop();
+                        }else{//打开聊天界面期间，来了多少条消息
+                            var _new_message_count = $("#new_message_count").text();
+                            $("#new_message_count").text(parseInt(_new_message_count)+1);
+                        }
+
+                    }else{
                         var data = JSON.parse(event.data);
                         alert(data.message);
-                    }else{//回复的消息
-                        var msgJson = JSON.parse(event.data);
-                        var foreignName = msgJson.foreignName;
-                        var msg = "<li class='li-child-even' data-attr="+foreignName+">"+msgJson.message+"</li>";
-                        setMyselefMessage("#convo .chat-thread",msg);
-                        autoScrollTop();
                     }
-
                 }else{
                     console.log("don't string")
 
@@ -483,14 +495,27 @@
                         //autoScrollTop();
 
                         var gameLanguage = $("#gameLanguage").val();
-                        if (''== gameLanguage){
+                        /*if (''== gameLanguage){
                             gameLanguage = lang_en_US;
-                        }
+                        }*/
 
-                        if(''==message){
+                        /*if(''==message){
                             alert(_languageSelect(gameLanguage, "paramsException"));
                             return;
+                        }*/
+
+                        if(''==message.replace(/\<br\/\>/g,"").replace(/\s/g,"")){
+                            alert(_languageSelect(gameLanguage,"descriptionIsNull"));
+                            $(".q4 #contentChat").val('');
+                            return;
                         }
+
+                        if($.getByteLength(message.replace('<br/>'," "))>300){
+                            alert(_languageSelect(gameLanguage,"descriptionIsToLong"));
+                            return;
+                        }
+
+                        message = message.replace(/(^\s*)|(\s*$)/g,'');
 
                         var aqUniqueId = $("#aqUniqueId").val();
                         var playerUserId = $("#playerUserId").val();
@@ -539,7 +564,7 @@
                 cache: false
             }).done(function( html ) {
                 console.log(html);
-                $( "#con_menu_2 #override_back_div" ).append(html );
+                $( "#con_menu_2 #chat-thread" ).append(html );
                 autoScrollTop();
             });
 
@@ -634,6 +659,10 @@
             <input type="hidden" id="gameCode" name="gameCode" value="">
             <input type="hidden" id="gameLanguage" name="gameLanguage" value="">
             <div id="override_back_div">
+                <div id="convo" data-from="Sonu Joshi">
+                    <ul class="chat-thread" id="chat-thread">
+                    </ul>
+                </div>
             </div>
             <!--<div id="convo" data-from="Sonu Joshi">
                 <ul class="chat-thread" id="chat-thread">
@@ -656,7 +685,7 @@
             </div>
             <div class="p_btn">
                 <a id="sub_send" class="btn-confirm-send" title="追问">追问</a>
-                <a id="sub_complete" class="btn-confirm-complete" title="结束">结束</a>
+                <!--<a id="sub_complete" class="btn-confirm-complete" title="结束">结束</a>-->
             </div>
         </div>
 

@@ -11,6 +11,9 @@ public class ResponseCodeConst{
     /**成功**/
     public static final int IS_SUCCESS = 1000;
 
+    /**聊天发送成功**/
+    public static final int IS_CHAT_SUCCESS = 1001;
+
     /**重复提问**/
     public static final int REPEAT_ASK_QUESTIONS = 1002;
 
@@ -29,8 +32,11 @@ public class ResponseCodeConst{
     /**签名错误**/
     public static final int SIGN_ERROR = 2002;
 
+    /**核对异常**/
+    public static final int DATA_CHECK_EXCEPTION = 2003;
+
     /**系统异常**/
-    public static final int SYSTEM_EXCEPTION = 2003;
+    public static final int SYSTEM_EXCEPTION = 2004;
 
 
 
