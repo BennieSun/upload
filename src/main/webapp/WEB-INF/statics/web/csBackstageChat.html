@@ -462,8 +462,16 @@
                         var msgJson = JSON.parse(event.data);
                         var playerUserId = $("#playerUserId").val();
                         var gameCode = $("#gameCode").val();
+                        if(gameCode.lastIndexOf("ios") >= 0){
+                            gameCode = gameCode.substr(0, gameCode.lastIndexOf("ios"));
+                        }
+                        var jsonGameCode = msgJson.gameCode.toString();
+                        if(jsonGameCode.lastIndexOf("ios") >= 0){
+                            jsonGameCode = jsonGameCode.substr(0, jsonGameCode.lastIndexOf("ios"));
+                        }
+
                         //後台打開的聊天界面是消息發送者的介面
-                        if (playerUserId == msgJson.playerUserId && gameCode==msgJson.gameCode){
+                        if (playerUserId == msgJson.playerUserId && gameCode==jsonGameCode){
                             var foreignName = msgJson.foreignName;
                             var msg = "<li class='li-child-even' data-attr="+foreignName+">"+msgJson.message+"</li>";
                             setMyselefMessage("#convo .chat-thread",msg);

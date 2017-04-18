@@ -78,19 +78,24 @@ public class CsBackstageController {
             return null;
         }
 
-        String gameCode = csBackstageManager.getGameCodes(Long.valueOf(accountId));
+        String gameCodeOrCsAdmin = csBackstageManager.getGameCodes(Long.valueOf(accountId));
 
-        if (null == gameCode){
+        if (null == gameCodeOrCsAdmin){
             logger.info("gameCode is null：userId="+accountId);
             return null;
         }
 
         List<CsAskQuestionsBean> csAskQuestionsList = null;
-        if (CsEnumUtils.Jurisdiction.csAdmin.toString().equals(gameCode)){
+        if (CsEnumUtils.Jurisdiction.csAdmin.toString().equals(gameCodeOrCsAdmin)){
             csAskQuestionsList = csBackstageManager.getAllAQAsProcessing();
         }else{
-            String[] gameCodes = gameCode.split(",");
-            csAskQuestionsList = csBackstageManager.getAllAQAsProcessing(gameCodes);
+            String[] gameCodes = gameCodeOrCsAdmin.split(",");
+            if (gameCodes.length > 0) {
+                csAskQuestionsList = csBackstageManager.getAllAQAsProcessing(gameCodes);
+            }else{
+                logger.info("gameCode is null and Jurisdiction is not csAdmin：accountId="+accountId);
+                return null;
+            }
         }
 
         //数据拼装

@@ -150,10 +150,10 @@ public class CsChatController {
 
         CsAskQuestionsBean csAskQuestionsBean = playerManager.getQuestions(Long.valueOf(aqId));
         if (null == csAskQuestionsBean || csAskQuestionsBean.getUserId().longValue() != Long.valueOf(userId).longValue()
-                || !gameCode.equals(csAskQuestionsBean.getGameCode())){
+                || !(gameCode.contains(csAskQuestionsBean.getGameCode()) || csAskQuestionsBean.getGameCode().contains(gameCode))){
             logger.info("aqId："+aqId+",does not exist params userId="+userId
                     +",Check："+(csAskQuestionsBean.getUserId().longValue() != Long.valueOf(userId).longValue())
-                    +",gameCode:"+gameCode+"，Check："+!gameCode.equals(csAskQuestionsBean.getGameCode()));
+                    +",gameCode:"+gameCode+"，Check："+!(gameCode.contains(csAskQuestionsBean.getGameCode()) || csAskQuestionsBean.getGameCode().contains(gameCode)));
             jsonObject.put("code", ResponseCodeConst.DATA_CHECK_EXCEPTION);
             jsonObject.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.DATA_CHECK_EXCEPTION));
             return jsonObject.toJSONString();

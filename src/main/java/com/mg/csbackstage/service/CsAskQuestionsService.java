@@ -23,12 +23,12 @@ public class CsAskQuestionsService {
         return askQuestionsDao.insert(askQuestionsBean);
     }
 
-    public int findAQCountByUserId(String userId) {
-        return askQuestionsDao.findAQCountByUserId(userId);
+    public int findAQCountByUserId(String userId, String[] gameCodes, int flag) {
+        return askQuestionsDao.findAQCountByUserId(userId, gameCodes, flag);
     }
 
-    public CsAskQuestionsBean findAQByUserId(Long userId, String gameCode, int flag) {
-        return askQuestionsDao.findAQByUserId(userId, gameCode, flag);
+    public CsAskQuestionsBean findAQByUserId(Long userId, String[] gameCodes, int flag) throws Exception{
+        return askQuestionsDao.findAQByUserId(userId, gameCodes, flag);
     }
 
     public CsAskQuestionsBean findAQById(Long aqId) {

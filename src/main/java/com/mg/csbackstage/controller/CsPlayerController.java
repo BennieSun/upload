@@ -193,7 +193,7 @@ public class CsPlayerController {
             return jsonObject.toJSONString();
         }
 
-        boolean isExistQuestions = playerManager.isExistQuestions(userId);
+        boolean isExistQuestions = playerManager.isExistQuestions(userId,gameCode);
         if (isExistQuestions){
             jsonObject.put("code", ResponseCodeConst.REPEAT_ASK_QUESTIONS);
             jsonObject.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.REPEAT_ASK_QUESTIONS));

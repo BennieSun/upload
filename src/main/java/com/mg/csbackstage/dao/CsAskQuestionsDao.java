@@ -22,14 +22,38 @@ public class CsAskQuestionsDao {
         return askQuestionsBean.insert();
     }
 
-    public int findAQCountByUserId(String userId) {
-        return askQuestionsBean.SPRead().fetchCount(
-                "select count(*) from t_cs_ask_questions where userId=? and flag=0",userId);
+    public int findAQCountByUserId(String userId, String[] gameCodes, int flag) {
+        //return askQuestionsBean.SPRead().fetchCount("select count(*) from t_cs_ask_questions where userId=? and gameCode=? and flag=?",userId, gameCode, flag);
+        StringBuilder sb = new StringBuilder("select count(*) from t_cs_ask_questions where userId=");
+        sb.append(userId);
+        sb.append(" and gameCode in('");
+        String common = "";
+        for(String gameCode : gameCodes){
+            sb.append(common);
+            sb.append(gameCode);
+            common = "','";
+        }
+        sb.append("')");
+        sb.append(" and flag=");
+        sb.append(flag);
+        return askQuestionsBean.SPRead().fetchCount(sb.toString());
     }
 
-    public CsAskQuestionsBean findAQByUserId(Long userId, String gameCode, int flag) {
-        return askQuestionsBean.SPRead().fetchOne(
-                "select * from t_cs_ask_questions where userId=? and gameCode=? and flag=?",userId,gameCode,flag);
+    public CsAskQuestionsBean findAQByUserId(Long userId, String[] gameCodes, int flag) throws Exception{
+        //return askQuestionsBean.SPRead().fetchOne("select * from t_cs_ask_questions where userId=? and gameCode=? and flag=?",userId,gameCode,flag);
+        StringBuilder sb = new StringBuilder("select * from t_cs_ask_questions where userId=");
+        sb.append(userId);
+        sb.append(" and gameCode in('");
+        String common = "";
+        for(String gameCode : gameCodes){
+            sb.append(common);
+            sb.append(gameCode);
+            common = "','";
+        }
+        sb.append("')");
+        sb.append(" and flag=");
+        sb.append(flag);
+        return askQuestionsBean.SPRead().fetchOne(sb.toString());
     }
 
     public List<CsAskQuestionsBean> findAllAQByGameCodes(int flag) {

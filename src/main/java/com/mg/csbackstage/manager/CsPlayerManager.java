@@ -115,8 +115,14 @@ public class CsPlayerManager {
      * @param userId
      * @return
      */
-    public boolean isExistQuestions(String userId) {
-        int count = askQuestionsService.findAQCountByUserId(userId);
+    public boolean isExistQuestions(String userId, String gameCode) {
+        if (gameCode.endsWith("ios")){
+            gameCode = gameCode.substring(0,gameCode.lastIndexOf("ios"));
+        }
+
+        String[] gameCodes = new String[]{gameCode,gameCode+"ios"};
+
+        int count = askQuestionsService.findAQCountByUserId(userId, gameCodes, CsEnumUtils.AskQuestionsFlag.processing.getStatusNum());
         if (count >= 1){
             return true;
         }
@@ -129,8 +135,14 @@ public class CsPlayerManager {
      * @param userId
      * @return
      */
-    public CsAskQuestionsBean getQuestions(Long userId, String gameCode){
-        return askQuestionsService.findAQByUserId(userId, gameCode, CsEnumUtils.AskQuestionsFlag.processing.getStatusNum());
+    public CsAskQuestionsBean getQuestions(Long userId, String gameCode) throws Exception{
+        if (gameCode.endsWith("ios")){
+            gameCode = gameCode.substring(0,gameCode.lastIndexOf("ios"));
+        }
+
+        String[] gameCodes = new String[]{gameCode,gameCode+"ios"};
+
+        return askQuestionsService.findAQByUserId(userId, gameCodes, CsEnumUtils.AskQuestionsFlag.processing.getStatusNum());
     }
 
     /**
