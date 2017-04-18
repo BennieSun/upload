@@ -213,8 +213,14 @@
                 var loginTimestamp = $("#loginTimestamp").val();
 
                 var message =  $(".q3 #content").val().replace(/\n/g, "<br/>");
-                var tel = $('#select-area').val();
-                tel = tel.substring(tel.lastIndexOf("+"));
+                var telPrefix = $('#select-area').val();
+                telPrefix = telPrefix.substring(telPrefix.lastIndexOf("+"));
+                var tel = $('#contactWay').val();
+                tel = telPrefix +" "+tel;
+
+                if(tel.replace(/\s/g,"")==telPrefix){
+                    tel = "";
+                }
 
                 if(''==message.replace(/\<br\/\>/g,"").replace(/\s/g,"")){
                     alert(_languageSelect(gameLanguage,"descriptionIsNull"));
@@ -330,7 +336,7 @@
                             </div>
                         </li>
                         <li>
-                            <div class="q1">聯絡電話：</div>
+                            <div class="q1">電話：</div>
                             <div class="q3">
                                 <div class="input-box">
                                     <div class="area">
