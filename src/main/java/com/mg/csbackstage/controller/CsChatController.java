@@ -102,7 +102,7 @@ public class CsChatController {
                 if (chatBean.getSenderType()== CsEnumUtils.SenderType.player.getStatusNum()){
                     csChatDetailPojo.setSenderName(csAskQuestionsBean.getRoleName());
                 }else if(chatBean.getSenderType()== CsEnumUtils.SenderType.cs.getStatusNum()){
-                    csChatDetailPojo.setSenderName(playerManager.getAccount(Long.valueOf(userId)).getForeignName());
+                    csChatDetailPojo.setSenderName(playerManager.getAccount(Long.valueOf(chatBean.getSenderId())).getForeignName());
                 }
                 CsChatDetailPojoList.add(csChatDetailPojo);
             }

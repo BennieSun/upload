@@ -110,7 +110,7 @@ public class CsBackstageController {
                         csAskQuestionsDetailPojo.setSenderId("玩家");
                     }else if(csChatBean.getSenderId() == CsEnumUtils.SenderType.cs.getStatusNum()){
                         csAskQuestionsDetailPojo.setSenderId(
-                                csBackstageManager.getStartpyAccount(csChatBean.getSenderId()).getName());
+                                csBackstageManager.getStartpyAccount(csChatBean.getSenderId()).getForeignName());
                     }else{
                         csAskQuestionsDetailPojo.setSenderId("未识别");
                     }

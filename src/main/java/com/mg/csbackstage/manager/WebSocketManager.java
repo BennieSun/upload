@@ -143,10 +143,19 @@ public class WebSocketManager {
 
         CsAskQuestionsBean csAskQuestionsBean = facAskQuestionsService.findAQByAqIdAsFac(
                 Long.valueOf(aqId), CsEnumUtils.AskQuestionsFlag.processing.getStatusNum());
-        if (null == csAskQuestionsBean || Integer.parseInt(csAskQuestionsBean.getUserId()+"")!=Integer.parseInt(usersPojo.getUserId()+"")){
-            logger.info((null == csAskQuestionsBean) ? "csAskQuestionsBean is null,aqUniqueId: " + aqId
-                    : "aqUniqueId: " + aqId + ", not exist userId,userId=" + usersPojo.getUserId()+"csAskQuestionsBean.getUserId()="+csAskQuestionsBean.getUserId());
-            return;
+        //通知信息接收人
+        if (CsEnumUtils.SenderType.player.getStatusNum() == senderTypeNum) {//发送者为玩家 -> 管理员
+            if (null == csAskQuestionsBean || csAskQuestionsBean.getUserId().longValue() != usersPojo.getUserId().longValue()) {
+                logger.info((null == csAskQuestionsBean) ? "csAskQuestionsBean is null,aqUniqueId: " + aqId
+                        : "aqUniqueId: " + aqId + ", not exist userId,userId=" + usersPojo.getUserId() + "csAskQuestionsBean.getUserId()=" + csAskQuestionsBean.getUserId());
+                return;
+            }
+        }else if (CsEnumUtils.SenderType.cs.getStatusNum() == senderTypeNum) {//发送者为客服后台 -> 发送到玩家
+            if (null == csAskQuestionsBean || csAskQuestionsBean.getUserId().longValue() != Long.valueOf(playerUserId).longValue()) {
+                logger.info((null == csAskQuestionsBean) ? "csAskQuestionsBean is null,aqUniqueId: " + aqId
+                        : "aqUniqueId: " + aqId + ", not exist userId,userId=" + playerUserId + "csAskQuestionsBean.getUserId()=" + csAskQuestionsBean.getUserId());
+                return;
+            }
         }
 
         CsChatBean csChatBean = new CsChatBean();
