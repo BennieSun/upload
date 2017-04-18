@@ -84,7 +84,7 @@ public class RequestApplicationManager {
         params.append("&");
         params.append("signature="+signature);
 
-        JSONObject jsonObject = DecodeRequestUtil.gamesResult(GlobalHelper.HttpUtil.getUrlBodyAsString(params.toString(),"get",null));
+        JSONObject jsonObject = DecodeRequestUtil.gamesResult(GlobalHelper.HttpUtil.getUrlReturnValue(params.toString()));
         if (null == jsonObject){
             return null;
         }
@@ -144,7 +144,7 @@ public class RequestApplicationManager {
         params.append("&");
         params.append("signature="+signature);
 
-        JSONObject jsonObject = DecodeRequestUtil.gamesResult(GlobalHelper.HttpUtil.getUrlBodyAsString(params.toString(),"get",null));
+        JSONObject jsonObject = DecodeRequestUtil.gamesResult(GlobalHelper.HttpUtil.getUrlReturnValue(params.toString()));
         if (null == jsonObject){
             return null;
         }
@@ -201,7 +201,7 @@ public class RequestApplicationManager {
         params.append("&");
         params.append("signature="+signature);
 
-        JSONObject jsonObject = DecodeRequestUtil.loginResult(GlobalHelper.HttpUtil.getUrlBodyAsString(params.toString(),"get",null));
+        JSONObject jsonObject = DecodeRequestUtil.loginResult(GlobalHelper.HttpUtil.getUrlReturnValue(params.toString()));
         if (null == jsonObject){
             return null;
         }

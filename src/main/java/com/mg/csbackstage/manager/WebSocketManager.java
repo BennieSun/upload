@@ -143,8 +143,9 @@ public class WebSocketManager {
 
         CsAskQuestionsBean csAskQuestionsBean = facAskQuestionsService.findAQByAqIdAsFac(
                 Long.valueOf(aqId), CsEnumUtils.AskQuestionsFlag.processing.getStatusNum());
-        if (null == csAskQuestionsBean || csAskQuestionsBean.getUserId()!=Long.valueOf(usersPojo.getUserId())){
-            logger.info("aqUniqueId: "+aqId+", not exist userId,userId="+usersPojo.getUserId());
+        if (null == csAskQuestionsBean || Integer.parseInt(csAskQuestionsBean.getUserId()+"")!=Integer.parseInt(usersPojo.getUserId()+"")){
+            logger.info((null == csAskQuestionsBean) ? "csAskQuestionsBean is null,aqUniqueId: " + aqId
+                    : "aqUniqueId: " + aqId + ", not exist userId,userId=" + usersPojo.getUserId()+"csAskQuestionsBean.getUserId()="+csAskQuestionsBean.getUserId());
             return;
         }
 

@@ -57,6 +57,7 @@ public class CsBackstageController {
     @RequestMapping(value = {"/csBackstage_entrance", "/csBackstage_entrance.web"}, method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView entrance(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         ParamLogMessage plm = GlobalHelper.RequestParameterHelper.loadRequestMessage(httpServletRequest, true, true);
+        logger.info(plm.print());
         Map<String,String> initMap = plm.getParamsMap();
 
         String ip = CommonUtils.getIpAddr(httpServletRequest);
@@ -129,6 +130,7 @@ public class CsBackstageController {
     @RequestMapping(value = {"/csBackstage_detailChat", "/csBackstage_detailChat.web"}, method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView detailChat(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         ParamLogMessage plm = GlobalHelper.RequestParameterHelper.loadRequestMessage(httpServletRequest, true, true);
+        logger.info(plm.print());
         Map<String,String> initMap = plm.getParamsMap();
 
         String ip = CommonUtils.getIpAddr(httpServletRequest);

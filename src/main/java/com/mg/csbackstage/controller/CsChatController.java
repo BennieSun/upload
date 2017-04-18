@@ -47,7 +47,7 @@ public class CsChatController {
     //@ResponseBody
     public ModelAndView message(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception{
         ParamLogMessage plm = GlobalHelper.RequestParameterHelper.loadRequestMessage(httpServletRequest, true, true);
-
+        logger.info(plm.print());
         //JSONObject jsonObject = new JSONObject();
         ModelAndView mav = new ModelAndView("comm/chatMessage");
 
@@ -125,6 +125,7 @@ public class CsChatController {
     @ResponseBody
     public String chatEnd(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception{
         ParamLogMessage plm = GlobalHelper.RequestParameterHelper.loadRequestMessage(httpServletRequest, true, true);
+        logger.info(plm.print());
         JSONObject jsonObject = new JSONObject();
 
         String ip = CommonUtils.getIpAddr(httpServletRequest);
@@ -148,10 +149,10 @@ public class CsChatController {
         }
 
         CsAskQuestionsBean csAskQuestionsBean = playerManager.getQuestions(Long.valueOf(aqId));
-        if (null == csAskQuestionsBean || csAskQuestionsBean.getUserId() != Long.valueOf(userId)
+        if (null == csAskQuestionsBean || csAskQuestionsBean.getUserId().longValue() != Long.valueOf(userId).longValue()
                 || !gameCode.equals(csAskQuestionsBean.getGameCode())){
             logger.info("aqId："+aqId+",does not exist params userId="+userId
-                    +",Check："+csAskQuestionsBean.getUserId() != Long.valueOf(userId)
+                    +",Check："+(csAskQuestionsBean.getUserId().longValue() != Long.valueOf(userId).longValue())
                     +",gameCode:"+gameCode+"，Check："+!gameCode.equals(csAskQuestionsBean.getGameCode()));
             jsonObject.put("code", ResponseCodeConst.DATA_CHECK_EXCEPTION);
             jsonObject.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.DATA_CHECK_EXCEPTION));

@@ -1,6 +1,9 @@
-<html xmlns="" xmlns="http://www.w3.org/1999/html">
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
 <head>
     <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <!--<meta http-equiv="Content-Language" content="zh-CN" />-->
     <meta name="roots" content="" />
     <meta name="Keywords" content="" />
@@ -245,7 +248,8 @@
 
                     if(1000 == json.code) {
                         $("#aqUniqueId").val(json.aqUniqueId);
-                        var msg = "<li class='li-child-odd'>" + $(".q3 #content").val().replace(/\n/g, "<br/>") + "</li>";
+                        var foreignName = roleName;
+                        var msg = "<li class='li-child-odd' data-attr="+foreignName+">" + $(".q3 #content").val().replace(/\n/g, "<br/>") + "</li>";
                         setMyselefMessage("#convo .chat-thread", msg);
 
                         setTab('menu',2,3);
@@ -262,6 +266,7 @@
             $('#sub_complete').click(function () {
                 var r=confirm(_languageSelect(gameLanguage, "confirmEnd"));
                 if (r==true){
+                    var aqUniqueId = $("#aqUniqueId").val();
                     $.ajax({
                         url: "../csChat_end",
                         data: "gameLanguage="+gameLanguage+"&aqId="+aqUniqueId+"&userId="+userId+"&gameCode="+gameCode,
@@ -270,6 +275,7 @@
                         var msgJson = JSON.parse(data);
                         if(1000 == msgJson.code){
                             $('#aqUniqueId').val("");
+                            $('#chat-thread').find("li").remove();
                             setTab('menu',1,3);
                             return;
                         }
@@ -309,7 +315,7 @@
 
                                     </ul>
                                 </div>
-                                <div class="photo-upload">
+                                <#--<div class="photo-upload">
                                     <div class="photo">
                                         <div id="preview">
 
@@ -320,7 +326,7 @@
                                         <input type="file" class="file-up" size="28" name="uploadFile" id="uploadFile">
                                     </div>
                                     <span class="upload-tips">總體大小不超過1M</span>
-                                </div>
+                                </div>-->
                             </div>
                         </li>
                         <li>

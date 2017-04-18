@@ -54,6 +54,7 @@ public class CsPlayerController {
     @RequestMapping(value = {"/player_entrance", "/cs_entrance.app"}, method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView entrance(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         ParamLogMessage plm = GlobalHelper.RequestParameterHelper.loadRequestMessage(httpServletRequest, true, true);
+        logger.info(plm.print());
         Map<String,String> initMap = plm.getParamsMap();
 
         String ip = CommonUtils.getIpAddr(httpServletRequest);
@@ -139,7 +140,7 @@ public class CsPlayerController {
     @ResponseBody
     public String askQuestions(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         ParamLogMessage plm = GlobalHelper.RequestParameterHelper.loadRequestMessage(httpServletRequest, true, true);
-
+        logger.info(plm.print());
         JSONObject jsonObject = new JSONObject();
 
         Map<String,String> initMap = plm.getParamsMap();
