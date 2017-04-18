@@ -17,11 +17,11 @@ public class CsJurisdictionGamesDao {
     CsJurisdictionGamesBean csJurisdictionGamesBean;
 
     public List<CsJurisdictionGamesBean> findJurisdictionGames(Long userId) {
-        return csJurisdictionGamesBean.SPRead().fetchAll("select * t_cs_jurisdiction_games from where userId=?",userId);
+        return csJurisdictionGamesBean.SPRead().fetchAll("select * from t_cs_jurisdiction_games where userId=?",userId);
     }
 
     public List<CsJurisdictionGamesBean> findJurisdictionGamesAsFac(Long userId) {
         CsJurisdictionGamesBean facJurisdictionGamesBean = ManagerFactory.getInstance("CsJurisdictionGamesBean",CsJurisdictionGamesBean.class);
-        return facJurisdictionGamesBean.SPRead().fetchAll("select * t_cs_jurisdiction_games from where userId=?",userId);
+        return facJurisdictionGamesBean.SPRead().fetchAll("select * from t_cs_jurisdiction_games where userId=?",userId);
     }
 }

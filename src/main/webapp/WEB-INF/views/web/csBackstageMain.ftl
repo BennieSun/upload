@@ -53,7 +53,7 @@
                     <td name="aqId" id="aqId"  class="ALL" width="80px;" style="display: none">${csAskQuestions.id!''}</td>
                     <td name="gameCode" id="gameCode"  class="ALL" width="80px;" style="display: none">${csAskQuestions.gameCode!''}</td>
                     <td name="packageName" id="packageName"  class="ALL" width="80px;" style="display: none">${csAskQuestions.packageName!''}</td>
-                    <td name="userId" id="userId"  class="ALL" width="80px;">${csAskQuestions.userId!''}</td>
+                    <td name="userId" id="userId"  class="ALL" width="80px;">${csAskQuestions.userId?c!''}</td>
                     <td name="message" id="message"  class="ALL" width="80px;">${csAskQuestions.message!''}</td>
                     <td name="senderType" id="senderType"  class="ALL" width="80px;">${csAskQuestions.senderId!''}</td>
                     <td name="createdTime" id="createdTime"  class="ALL" width="80px;" style="display: none">
@@ -63,7 +63,7 @@
                         ${(csAskQuestions.modifiedTime*1000)?number_to_datetime?string('yyyy-MM-dd HH:mm:ss')}
                     </td>
                     <td name="btn_td" id="btn_td"  class="ALL" width="80px;">
-                        <button type="button" onclick="javascript:btnClick(this);" aqId_data="${csAskQuestions.id!''}" userId_data="${csAskQuestions.userId!''}" gameCode_data="${csAskQuestions.gameCode!''}">回复</button>
+                        <button type="button" onclick="javascript:btnClick(this);" aqId_data="${csAskQuestions.id?c!''}" userId_data="${csAskQuestions.userId?c!''}" gameCode_data="${csAskQuestions.gameCode!''}">回复</button>
                     </td>
                 </tr>
             </#list>

@@ -106,11 +106,11 @@ public class CsBackstageController {
                 if (null != csChatBean){
                     csAskQuestionsDetailPojo.setImgUrl(csChatBean.getImgUrl());
                     csAskQuestionsDetailPojo.setMessage(csChatBean.getMessage());
-                    if (csChatBean.getSenderId() == CsEnumUtils.SenderType.player.getStatusNum()){
-                        csAskQuestionsDetailPojo.setSenderId("玩家");
-                    }else if(csChatBean.getSenderId() == CsEnumUtils.SenderType.cs.getStatusNum()){
+                    if (csChatBean.getSenderType() == CsEnumUtils.SenderType.player.getStatusNum()){
+                        csAskQuestionsDetailPojo.setSenderId(csAskQuestionsBean.getRoleName());
+                    }else if(csChatBean.getSenderType() == CsEnumUtils.SenderType.cs.getStatusNum()){
                         csAskQuestionsDetailPojo.setSenderId(
-                                csBackstageManager.getStartpyAccount(csChatBean.getSenderId()).getForeignName());
+                                csBackstageManager.getStartpyAccount(csChatBean.getSenderId()).getApplicant());
                     }else{
                         csAskQuestionsDetailPojo.setSenderId("未识别");
                     }

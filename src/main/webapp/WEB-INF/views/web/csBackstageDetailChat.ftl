@@ -28,7 +28,7 @@
         <tr class="table_title_r">
             <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">账号Id</td>
             <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">
-            ${csBsAQChatDetail["userId"]!''}
+            ${csBsAQChatDetail["userId"]?c!''}
             </td>
             <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">注册来源</td>
             <td class="ALL" width="80px" style="text-align: center;font-size: 13px;font-family: '微软雅黑';">

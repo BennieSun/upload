@@ -40,15 +40,15 @@ public class CsAskQuestionsDao {
     public List<CsAskQuestionsBean> findAllAQByGameCodes(int flag, String... gameCodes) {
         StringBuilder sb = new StringBuilder("select * from t_cs_ask_questions where flag=");
         sb.append(flag);
-        sb.append(" and gameCode in(");
+        sb.append(" and gameCode in('");
         String common = "";
         for(String gameCode : gameCodes){
             sb.append(common);
             sb.append(gameCode);
-            common = ",";
+            common = "','";
         }
-        sb.substring(0,sb.lastIndexOf(","));
-        sb.append(")");
+        //sb.substring(0,sb.lastIndexOf(","));
+        sb.append("')");
         sb.append(" order by modifiedTime Desc");
         return askQuestionsBean.SPRead().fetchAll(sb.toString());
     }
