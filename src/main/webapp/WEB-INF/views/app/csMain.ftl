@@ -408,7 +408,7 @@
                 </div>
             </div>
             <div class="q4">
-                <textarea id="contentChat" name="contentChat" class="textarea-in" autofocus="autofocus" placeholder=""></textarea>
+                <textarea id="contentChat" name="contentChat" class="textarea-in_chat" autofocus="autofocus" placeholder=""></textarea>
             </div>
             <div class="p_btn">
                 <a id="sub_send" class="btn-confirm-send" title="追问">追问</a>
