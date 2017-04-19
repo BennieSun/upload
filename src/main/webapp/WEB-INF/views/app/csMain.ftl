@@ -36,8 +36,7 @@
                         alert(_languageSelect(gameLanguage, "aqUniqueIdIsNull"));
                         return;
                     }
-
-                    autoScrollTop();
+                    //setTimeout(autoScrollTop(),10000);
                 }
 
                 var menu=document.getElementById(name+i);
@@ -58,7 +57,7 @@
          * 滚动条拉到最后
          **/
         function autoScrollTop() {
-            $(".chat-thread").scrollTop($(".chat-thread")[0].scrollHeight);
+            $(".chat-thread").scrollTop($(".chat-thread")[0].scrollHeight+50);
         }
 
 
@@ -187,6 +186,7 @@
 
                 if(''!=aqUniqueId || parseInt(aqUniqueId)>0) {
                     setTab('menu',2,3);
+                    autoScrollTop();
                 }
             });
 
@@ -259,7 +259,7 @@
                         setMyselefMessage("#convo .chat-thread", msg);
 
                         setTab('menu',2,3);
-                        //autoScrollTop();
+                        autoScrollTop();
                     }
 
                     alert(json.message);

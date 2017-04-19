@@ -419,7 +419,7 @@
          * 滚动条拉到最后
          **/
         function autoScrollTop() {
-            $(".chat-thread").scrollTop($(".chat-thread")[0].scrollHeight);
+            $(".chat-thread").scrollTop($(".chat-thread")[0].scrollHeight+50);
         }
 
 
@@ -452,6 +452,8 @@
                     if(event.data.indexOf("{\"code\":1000")>=0){//发送成功，放入自己发送的消息
                         var msgJson = JSON.parse(event.data);
                         var foreignName = msgJson.foreignName;
+                        console.log(msgJson.gameCode);
+                        console.log(msgJson.playerUserId);
                         var message = $(".q4 #contentChat").val().replace(/\n/g,"<br/>");
                         var msg = "<li class='li-child-odd' data-attr="+foreignName+">"+message+"</li>";
                         setMyselefMessage("#convo .chat-thread",msg);

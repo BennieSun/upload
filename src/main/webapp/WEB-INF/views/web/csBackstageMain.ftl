@@ -25,9 +25,17 @@
             window.location.href="web/csBackstageChat.html?aqUniqueId="+aqUniqueId+"&playerUserId="+playerUserId
                     +"&gameCode="+gameCode+"&userId="+accountId+"&gameLanguage="+gameLanguage;
         }
+
+        function btnClick_endChat(data) {
+
+        }
     </script>
 </head>
 <body>
+<div>
+
+    <button type="button" onclick="javascript:btnClick_endChat(this);">已关闭问题列表</button>
+</div>
 <div class="content" id="contentDivId" style="overflow-y:hidden;">
     <input type="hidden" id="accountId" name="accountId" value="${accountId!''}">
     <input type="hidden" id="gameLanguage" name="gameLanguage" value="${gameLanguage!''}">
@@ -40,6 +48,7 @@
                 <td class="ALL" width="25px;" style="display: none">游戏标识</td>
                 <td class="ALL" width="25px;" style="display: none">包名</td>
                 <td class="ALL" width="15px;" >用户Id</td>
+                <td class="ALL" width="15px;" >游戏名称</td>
                 <td class="ALL" width="15px;" >消息内容</td>
                 <td class="ALL" width="15px;" >信息所属人</td>
                 <td class="ALL" width="25px;" style="display: none">创建时间</td>
@@ -54,6 +63,7 @@
                     <td name="gameCode" id="gameCode"  class="ALL" width="80px;" style="display: none">${csAskQuestions.gameCode!''}</td>
                     <td name="packageName" id="packageName"  class="ALL" width="80px;" style="display: none">${csAskQuestions.packageName!''}</td>
                     <td name="userId" id="userId"  class="ALL" width="80px;">${csAskQuestions.userId?c!''}</td>
+                    <td name="gameName" id="gameName"  class="ALL" width="80px;">${csAskQuestions.gameName!''}</td>
                     <td name="message" id="message"  class="ALL" width="80px;">${csAskQuestions.message!''}</td>
                     <td name="senderType" id="senderType"  class="ALL" width="80px;">${csAskQuestions.senderId!''}</td>
                     <td name="createdTime" id="createdTime"  class="ALL" width="80px;" style="display: none">
