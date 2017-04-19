@@ -158,9 +158,11 @@ public class WebSocketManager {
             }
         }
 
+        String ip = getIpAddressByChannel(ctx);
+
         CsChatBean csChatBean = new CsChatBean();
         csChatBean.setAqId(Long.valueOf(aqId));
-        csChatBean.setCreatedIp(ctx.channel().remoteAddress()+"");
+        csChatBean.setCreatedIp(ip);
         csChatBean.setCreatedTime(createTime);
         csChatBean.setMessage(message);
         csChatBean.setSenderId(usersPojo.getUserId());
@@ -168,8 +170,6 @@ public class WebSocketManager {
         int returnId = facChatService.insertAsFac(csChatBean);
 
         if (returnId>0){
-            String remoteAddress = ctx.channel().remoteAddress().toString().replace("/","");
-            String ip = remoteAddress.substring(0,remoteAddress.lastIndexOf(":"));
             //更新最新消息
             facAskQuestionsService.updateAQByIdAsFac(Long.valueOf(aqId),
                     new String[]{"modifiedTime","modifiedIp",},
@@ -240,8 +240,10 @@ public class WebSocketManager {
         ctx.channel().writeAndFlush(new TextWebSocketFrame(responeJson.toJSONString()));
     }
 
-
-
+    private static String getIpAddressByChannel(ChannelHandlerContext ctx) {
+        String remoteAddress = ctx.channel().remoteAddress().toString().replace("/","");
+        return remoteAddress.substring(0,remoteAddress.lastIndexOf(":"));
+    }
 
 
     //任务
