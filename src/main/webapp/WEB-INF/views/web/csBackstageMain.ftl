@@ -27,15 +27,29 @@
         }
 
         function btnClick_endChat(data) {
-
+            var accountId = $("#accountId").val();//账号Id
+            var gameLanguage = $("#gameLanguage").val();
+            $.ajax({
+                url: "../csBackstage_endDetail",
+                data: "gameLanguage="+gameLanguage+"&accountId="+accountId,
+                cache: false
+            }).done(function( html ) {
+                $( "#contentAQEnd" ).append(html);
+                $("#btn_end_chat").css("display","none");
+                $( "#contentDivId").css("display","none");
+            });
         }
     </script>
 </head>
 <body>
-<div>
-
-    <button type="button" onclick="javascript:btnClick_endChat(this);">已关闭问题列表</button>
+<div id="btn_end_chat">
+    <button style="color:red; margin: 10 auto;" type="button" onclick="javascript:btnClick_endChat(this);">已关闭问题列表</button>
 </div>
+
+<div class="content" id="contentAQEnd" style="overflow-y:hidden;">
+
+</div>
+
 <div class="content" id="contentDivId" style="overflow-y:hidden;">
     <input type="hidden" id="accountId" name="accountId" value="${accountId!''}">
     <input type="hidden" id="gameLanguage" name="gameLanguage" value="${gameLanguage!''}">

@@ -168,7 +168,7 @@ public class CsBackstageController {
         }else{
             String[] gameCodes = gameCodeOrCsAdmin.split(",");
             if (gameCodes.length > 0) {
-                csAskQuestionsList = csBackstageManager.getAllAQAsProcessing(gameCodes);
+                csAskQuestionsList = csBackstageManager.getAllAQAsEnd(gameCodes);
             }else{
                 logger.info("gameCode is null and Jurisdiction is not csAdmin：accountId="+accountId);
                 return null;
