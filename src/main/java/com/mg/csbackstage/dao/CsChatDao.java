@@ -28,6 +28,11 @@ public class CsChatDao {
                 "select * from t_cs_chat where id=(select max(id) from t_cs_chat where aqid=?)",askQuestionsId);
     }
 
+    public CsChatBean findFirstChat(Long askQuestionsId) {
+        return chatBean.SPRead().fetchOne(
+                "select * from t_cs_chat where id=(select min(id) from t_cs_chat where aqid=?)",askQuestionsId);
+    }
+
     public List<CsChatBean> findChatList(String aqId) {
         return chatBean.SPRead().fetchAll("select * from t_cs_chat where aqid=? order by createdTime asc", aqId);
     }

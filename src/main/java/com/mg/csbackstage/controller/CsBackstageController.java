@@ -184,7 +184,7 @@ public class CsBackstageController {
                 Map<String, Object> tempMap = GlobalHelper.ToEntityHelper.transEntity2Map(csAskQuestionsBean);
                 GlobalHelper.ToEntityHelper.copyMap2Object(tempMap, csAskQuestionsDetailPojo);
                 //对象赋值
-                CsChatBean csChatBean = csBackstageManager.getLastChat(csAskQuestionsBean.getId());
+                CsChatBean csChatBean = csBackstageManager.getFirstChat(csAskQuestionsBean.getId());
                 if (null != csChatBean){
                     csAskQuestionsDetailPojo.setImgUrl(csChatBean.getImgUrl());
                     csAskQuestionsDetailPojo.setMessage(csChatBean.getMessage());

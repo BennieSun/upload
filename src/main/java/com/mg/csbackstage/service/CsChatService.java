@@ -29,6 +29,10 @@ public class CsChatService {
         return chatDao.findLastChat(askQuestionsId);
     }
 
+    public CsChatBean findFirstChat(Long askQuestionsId) {
+        return chatDao.findFirstChat(askQuestionsId);
+    }
+
     public List<CsChatBean> findChatList(String aqId) {
         return chatDao.findChatList(aqId);
     }

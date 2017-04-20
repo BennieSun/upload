@@ -100,6 +100,10 @@ public class CsBackstageManager {
         return csChatService.findLastChat(askQuestionsId);
     }
 
+    public CsChatBean getFirstChat(Long askQuestionsId) {
+        return csChatService.findFirstChat(askQuestionsId);
+    }
+
     public StarpyAccountBean getStartpyAccount(Long userId) {
         return starpyAccountservice.findAccount(userId);
     }
