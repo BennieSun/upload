@@ -21,6 +21,7 @@ import com.mg.util.core.GlobalHelper;
 import com.mg.util.core.message.ServerConfig;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelId;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -63,9 +64,11 @@ public class WebSocketManager {
     }
 
     public static void removeSession(ChannelHandlerContext ctx) {
-        Long userId = CsPlayerUserSessionManager.getUserIdByChannelId(ctx.channel().id());
-        CsBackstageUserSessionManager.removeSession(userId,ctx.channel().id());
-        CsPlayerUserSessionManager.removeSession(userId,ctx.channel().id());
+        Long backstageUserId = CsBackstageUserSessionManager.getUserIdByChannelId(ctx.channel().id());
+        CsBackstageUserSessionManager.removeSession(backstageUserId,ctx.channel().id());
+
+        Long playerUserId = CsPlayerUserSessionManager.getUserIdByChannelId(ctx.channel().id());
+        CsPlayerUserSessionManager.removeSession(playerUserId,ctx.channel().id());
     }
 
     /**
@@ -133,8 +136,6 @@ public class WebSocketManager {
 
         CsChatService facChatService = ManagerFactory.getInstance("CsChatService",CsChatService.class);
         CsAskQuestionsService facAskQuestionsService = ManagerFactory.getInstance("CsAskQuestionsService",CsAskQuestionsService.class);
-        StarpyAccountservice facStarpyAccountservice = ManagerFactory.getInstance("StarpyAccountservice",StarpyAccountservice.class);
-        CsJurisdictionGamesService facJurisdictionGamesService = ManagerFactory.getInstance("CsJurisdictionGamesService",CsJurisdictionGamesService.class);
 
         if (null == usersPojo || null == usersPojo.getUserId()){
             logger.info("channelId="+ctx.channel().id()+":session's userId is not exist");
@@ -182,37 +183,11 @@ public class WebSocketManager {
                 if (null != sessionMap) {
                     Set<Map.Entry<Long, ISession>> iter = sessionMap.entrySet();
                     for (Map.Entry<Long, ISession> entry : iter) {
-                        JSONObject responeJsonTemp = new JSONObject();
-                        Long tempPlayerUserId = entry.getKey();
-                        //获取权限
-                        StarpyAccountBean starpyAccountBean = facStarpyAccountservice.findAccountAsFac(tempPlayerUserId);
-                        //客服管理员
-                        if (starpyAccountBean.getJurisdiction() == CsEnumUtils.Jurisdiction.csAdmin.getStatusNum()){
-                            responeJsonTemp.put("code", ResponseCodeConst.IS_CHAT_SUCCESS);
-                            responeJsonTemp.put("playerUserId", CsPlayerUserSessionManager.getUserIdByChannelId(ctx.channel().id()));
-                            responeJsonTemp.put("gameCode", gameCode);
-                            responeJsonTemp.put("foreignName", CsPlayerUserSessionManager.getSessionByChannelId(ctx.channel().id()).usersPojo().getForeignName());
-                            responeJsonTemp.put("message", message);
-                            entry.getValue().channel().writeAndFlush(new TextWebSocketFrame(responeJsonTemp.toJSONString()));
-                        }else if (starpyAccountBean.getJurisdiction() == CsEnumUtils.Jurisdiction.ordinary.getStatusNum()){
-                            List<CsJurisdictionGamesBean> jurisdictionList = facJurisdictionGamesService.findJurisdictionGamesAsFac(tempPlayerUserId);
-                            for (CsJurisdictionGamesBean bean:jurisdictionList){
-                                if (bean.getGameCode().equals(gameCode)){
-                                    responeJsonTemp.put("code", ResponseCodeConst.IS_CHAT_SUCCESS);
-                                    responeJsonTemp.put("playerUserId", CsPlayerUserSessionManager.getUserIdByChannelId(ctx.channel().id()));
-                                    responeJsonTemp.put("gameCode", gameCode);
-                                    responeJsonTemp.put("foreignName", CsPlayerUserSessionManager.getSessionByChannelId(ctx.channel().id()).usersPojo().getForeignName());
-                                    responeJsonTemp.put("message", message);
-                                    entry.getValue().channel().writeAndFlush(new TextWebSocketFrame(responeJsonTemp.toJSONString()));
-                                }
-                            }
-                        }else{
-                            logger.info("无即时通信权限，只有客服相关权限才有,管理员账号name:"+starpyAccountBean.getName());
-                            return;
-                        }
+                        sendChat(ctx,entry,gameCode,message,CsEnumUtils.SenderType.player.toString(),null);
                     }
                 }
             }else if (CsEnumUtils.SenderType.cs.getStatusNum() == senderTypeNum) {//发送者为客服后台 -> 发送到玩家
+                //1.玩家
                 UserSession userSession = (UserSession) CsPlayerUserSessionManager.getSessionByUserId(Long.valueOf(playerUserId));
                 if (null != userSession && null != userSession.channel()){
                     JSONObject responeJsonTemp = new JSONObject();
@@ -220,6 +195,23 @@ public class WebSocketManager {
                     responeJsonTemp.put("foreignName", CsBackstageUserSessionManager.getSessionByChannelId(ctx.channel().id()).usersPojo().getForeignName());
                     responeJsonTemp.put("message", message);
                     userSession.channel().writeAndFlush(new TextWebSocketFrame(responeJsonTemp.toJSONString()));
+                }
+
+                //2.通知其他有权限，在线的客服管理人员
+                //客服在线
+                ConcurrentHashMap<Long, ISession> sessionMap = CsBackstageUserSessionManager.getSessionMap();
+                if (null != sessionMap) {
+                    ChannelId currentChannelId = ctx.channel().id();
+
+                    Set<Map.Entry<Long, ISession>> iter = sessionMap.entrySet();
+                    for (Map.Entry<Long, ISession> entry : iter) {
+                        //本人不进行发送
+                        if (entry.getValue().channel().id() == currentChannelId){
+                            continue;
+                        }
+
+                        sendChat(ctx, entry, gameCode, message, CsEnumUtils.SenderType.cs.toString(), Long.valueOf(playerUserId));
+                    }
                 }
             }
 
@@ -243,6 +235,75 @@ public class WebSocketManager {
     private static String getIpAddressByChannel(ChannelHandlerContext ctx) {
         String remoteAddress = ctx.channel().remoteAddress().toString().replace("/","");
         return remoteAddress.substring(0,remoteAddress.lastIndexOf(":"));
+    }
+
+    /**
+     * 发送消息给所有客服管理人员
+     * @param ctx
+     * @param entry
+     * @param gameCode
+     * @param message
+     * @param senderType
+     * @param playerUserId
+     */
+    private static void sendChat(ChannelHandlerContext ctx,Map.Entry<Long, ISession> entry,String gameCode,String message, String senderType,Long playerUserId){
+        StarpyAccountservice facStarpyAccountservice = ManagerFactory.getInstance("StarpyAccountservice",StarpyAccountservice.class);
+        CsJurisdictionGamesService facJurisdictionGamesService = ManagerFactory.getInstance("CsJurisdictionGamesService",CsJurisdictionGamesService.class);
+        JSONObject responeJsonTemp = new JSONObject();
+        Long tempAccountUserId = entry.getKey();
+
+        logger.info(null==playerUserId
+                ?"player send message,channelId:"+ctx.channel().id()+",senderType:"+senderType+",gameCode"+gameCode
+                :"admin send message,channelId:"+ctx.channel().id()+",senderType:"+senderType+",gameCode"+gameCode+",playerId:"+playerUserId+"");
+
+        //获取权限
+        StarpyAccountBean starpyAccountBean = facStarpyAccountservice.findAccountAsFac(tempAccountUserId);
+        //客服管理员
+        if (starpyAccountBean.getJurisdiction() == CsEnumUtils.Jurisdiction.csAdmin.getStatusNum()){
+            if (CsEnumUtils.SenderType.player.toString().equals(senderType)) {
+                responeJsonTemp.put("code", ResponseCodeConst.IS_CHAT_SUCCESS);
+                responeJsonTemp.put("playerUserId", CsPlayerUserSessionManager.getUserIdByChannelId(ctx.channel().id()));
+                responeJsonTemp.put("gameCode", gameCode);
+                responeJsonTemp.put("foreignName", CsPlayerUserSessionManager.getSessionByChannelId(ctx.channel().id()).usersPojo().getForeignName());
+                responeJsonTemp.put("message", message);
+                entry.getValue().channel().writeAndFlush(new TextWebSocketFrame(responeJsonTemp.toJSONString()));
+            }else if(CsEnumUtils.SenderType.cs.toString().equals(senderType) && null != playerUserId){
+                responeJsonTemp.put("code", ResponseCodeConst.IS_SUCCESS);
+                responeJsonTemp.put("playerUserId", playerUserId);
+                responeJsonTemp.put("gameCode", gameCode);
+                responeJsonTemp.put("foreignName", CsBackstageUserSessionManager.getSessionByChannelId(ctx.channel().id()).usersPojo().getForeignName());
+                responeJsonTemp.put("message", message);
+                entry.getValue().channel().writeAndFlush(new TextWebSocketFrame(responeJsonTemp.toJSONString()));
+            }
+
+        }else if (starpyAccountBean.getJurisdiction() == CsEnumUtils.Jurisdiction.ordinary.getStatusNum()){
+            List<CsJurisdictionGamesBean> jurisdictionList = facJurisdictionGamesService.findJurisdictionGamesAsFac(tempAccountUserId);
+            for (CsJurisdictionGamesBean bean:jurisdictionList){
+                if (bean.getGameCode().equals(gameCode)){
+                    if (CsEnumUtils.SenderType.player.toString().equals(senderType)) {
+                        responeJsonTemp.put("code", ResponseCodeConst.IS_CHAT_SUCCESS);
+                        responeJsonTemp.put("playerUserId", CsPlayerUserSessionManager.getUserIdByChannelId(ctx.channel().id()));
+                        responeJsonTemp.put("gameCode", gameCode);
+                        responeJsonTemp.put("foreignName", CsPlayerUserSessionManager.getSessionByChannelId(ctx.channel().id()).usersPojo().getForeignName());
+                        responeJsonTemp.put("message", message);
+                        entry.getValue().channel().writeAndFlush(new TextWebSocketFrame(responeJsonTemp.toJSONString()));
+                    }else if(CsEnumUtils.SenderType.cs.toString().equals(senderType) && null != playerUserId){
+                        responeJsonTemp.put("code", ResponseCodeConst.IS_SUCCESS);
+                        responeJsonTemp.put("playerUserId", playerUserId);
+                        responeJsonTemp.put("gameCode", gameCode);
+                        responeJsonTemp.put("foreignName", CsBackstageUserSessionManager.getSessionByChannelId(ctx.channel().id()).usersPojo().getForeignName());
+                        responeJsonTemp.put("message", message);
+                        entry.getValue().channel().writeAndFlush(new TextWebSocketFrame(responeJsonTemp.toJSONString()));
+                    }
+
+                }
+            }
+        }else{
+            logger.info("无即时通信权限，只有客服相关权限才有,管理员账号name:"+starpyAccountBean.getName());
+            return;
+        }
+
+        logger.info("send message is complete");
     }
 
 

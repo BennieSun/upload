@@ -73,6 +73,20 @@ public class CsBackstageManager {
     }
 
     /**
+     * 已结束的问题
+     * @param gameCode
+     * @return
+     */
+    public List<CsAskQuestionsBean> getAllAQAsEnd(String... gameCode) {
+        if (null == gameCode || gameCode.length<=0){
+            return csAskQuestionsService.findAllAQByGameCodes(CsEnumUtils.AskQuestionsFlag.end.getStatusNum());
+        }else {
+            return csAskQuestionsService.findAllAQByGameCodes(CsEnumUtils.AskQuestionsFlag.end.getStatusNum(),
+                    gameCode);
+        }
+    }
+
+    /**
      * 获取提问数据，根据问题唯一id
      * @param aqId
      * @return

@@ -131,6 +131,82 @@ public class CsBackstageController {
         return mav;
     }
 
+    @RequestMapping(value = {"/csBackstage_endDetail", "/csBackstage_endDetail.web"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView endDetail(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+        ParamLogMessage plm = GlobalHelper.RequestParameterHelper.loadRequestMessage(httpServletRequest, true, true);
+        logger.info(plm.print());
+        Map<String,String> initMap = plm.getParamsMap();
+
+        String ip = CommonUtils.getIpAddr(httpServletRequest);
+
+        String accountId = initMap.get("accountId");//系统账号id
+        String gameLanguage = initMap.get("gameLanguage");//提示语言信息
+
+        String langName = ServerConfig.getInstance().getLang();
+        if (StringUtils.isNotEmpty(gameLanguage)) {
+            langName = gameLanguage;
+        }
+
+        JSONObject jsonObject = new JSONObject();
+        if (StringUtils.isEmpty(accountId)){
+            logger.info("params is exception：accountId="+accountId);
+            jsonObject.put("code", ResponseCodeConst.PARAMS_EXCEPTION);
+            jsonObject.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.PARAMS_EXCEPTION));
+            return null;
+        }
+
+        String gameCodeOrCsAdmin = csBackstageManager.getGameCodes(Long.valueOf(accountId));
+
+        if (null == gameCodeOrCsAdmin){
+            logger.info("gameCode is null：userId="+accountId);
+            return null;
+        }
+
+        List<CsAskQuestionsBean> csAskQuestionsList = null;
+        if (CsEnumUtils.Jurisdiction.csAdmin.toString().equals(gameCodeOrCsAdmin)){
+            csAskQuestionsList = csBackstageManager.getAllAQAsEnd();
+        }else{
+            String[] gameCodes = gameCodeOrCsAdmin.split(",");
+            if (gameCodes.length > 0) {
+                csAskQuestionsList = csBackstageManager.getAllAQAsProcessing(gameCodes);
+            }else{
+                logger.info("gameCode is null and Jurisdiction is not csAdmin：accountId="+accountId);
+                return null;
+            }
+        }
+
+        //数据拼装
+        List<CsBackstageAQDetailPojo> csAQDetailPojoList = new ArrayList<CsBackstageAQDetailPojo>();
+        if (null != csAskQuestionsList){
+            for (CsAskQuestionsBean csAskQuestionsBean:csAskQuestionsList) {
+                CsBackstageAQDetailPojo csAskQuestionsDetailPojo = new CsBackstageAQDetailPojo();
+                //对象复制
+                Map<String, Object> tempMap = GlobalHelper.ToEntityHelper.transEntity2Map(csAskQuestionsBean);
+                GlobalHelper.ToEntityHelper.copyMap2Object(tempMap, csAskQuestionsDetailPojo);
+                //对象赋值
+                CsChatBean csChatBean = csBackstageManager.getLastChat(csAskQuestionsBean.getId());
+                if (null != csChatBean){
+                    csAskQuestionsDetailPojo.setImgUrl(csChatBean.getImgUrl());
+                    csAskQuestionsDetailPojo.setMessage(csChatBean.getMessage());
+                    if (csChatBean.getSenderType() == CsEnumUtils.SenderType.player.getStatusNum()){
+                        csAskQuestionsDetailPojo.setSenderId(csAskQuestionsBean.getRoleName());
+                    }else if(csChatBean.getSenderType() == CsEnumUtils.SenderType.cs.getStatusNum()){
+                        csAskQuestionsDetailPojo.setSenderId(
+                                csBackstageManager.getStartpyAccount(csChatBean.getSenderId()).getApplicant());
+                    }else{
+                        csAskQuestionsDetailPojo.setSenderId("未识别");
+                    }
+                }
+                csAQDetailPojoList.add(csAskQuestionsDetailPojo);
+            }
+        }
+
+        ModelAndView mav = new ModelAndView("web/csBackstageEndDetailMain");
+        mav.addObject("csAskQuestionsList",csAQDetailPojoList);
+        mav.addObject("accountId",accountId);
+        mav.addObject("gameLanguage",langName);
+        return mav;
+    }
 
     @RequestMapping(value = {"/csBackstage_detailChat", "/csBackstage_detailChat.web"}, method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView detailChat(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {

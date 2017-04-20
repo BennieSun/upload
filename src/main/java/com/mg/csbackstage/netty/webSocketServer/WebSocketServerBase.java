@@ -22,7 +22,7 @@ public class WebSocketServerBase implements IWebSocketChannelCallBack {
 	 */
 	@Override
 	public void channelData(Map<String, String> params, ChannelHandlerContext ctx) throws Exception {
-		logger.info("channelData socket");
+		logger.info("channelData socket:"+ctx.channel().id());
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class WebSocketServerBase implements IWebSocketChannelCallBack {
 	 */
 	@Override
 	public void setInitSession(String message, ChannelHandlerContext ctx) throws Exception {
-		logger.info("setInitSession");
+		logger.info("setInitSession:"+ctx.channel().id());
 	}
 
 	/**
@@ -53,17 +53,17 @@ public class WebSocketServerBase implements IWebSocketChannelCallBack {
 	 */
 	@Override
 	public void removeSession(ChannelHandlerContext ctx) throws Exception {
-		logger.info("removeSession");
+		logger.info("removeSession:"+ctx.channel().id());
 	}
 
 	@Override
 	public void channelOpen(ChannelHandlerContext ctx) {
-		logger.info("channelOpen");
+		logger.info("channelOpen:"+ctx.channel().id());
 	}
 
 	@Override
 	public void chanelClose(ChannelHandlerContext ctx) {
-		logger.info("chanelClose");
+		logger.info("chanelClose:"+ctx.channel().id());
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class WebSocketServerBase implements IWebSocketChannelCallBack {
 	 */
 	@Override
 	public void channelException(ChannelHandlerContext ctx, Throwable cause) {
-		logger.info("channelException");
+		logger.info("channelException:"+ctx.channel().id());
 		throw new RuntimeException(cause);
 	}
 

@@ -43,7 +43,7 @@ public class WebSocketUtil extends WebSocketServerBase {
 
 	@Override
 	public void channelData(Map<String, String> params, ChannelHandlerContext ctx) throws Exception {
-		logger.info("channelData socket");
+		logger.info("channelData socket:"+ctx.channel().id());
 		WebSocketManager.channelData(params, ctx);
 	}
 
@@ -92,7 +92,7 @@ public class WebSocketUtil extends WebSocketServerBase {
 
 	@Override
 	public void chanelClose(ChannelHandlerContext ctx) {
-		logger.info("chanelClose");
+		logger.info("chanelClose:"+ctx.channel().id());
 		WebSocketManager.removeSession(ctx);
 	}
 
@@ -103,7 +103,7 @@ public class WebSocketUtil extends WebSocketServerBase {
 	 */
 	@Override
 	public void channelException(ChannelHandlerContext ctx, Throwable cause) {
-		logger.info("channelException");
+		logger.info("channelException:"+ctx.channel().id());
 		WebSocketManager.removeSession(ctx);
 		throw new RuntimeException(cause);
 	}
