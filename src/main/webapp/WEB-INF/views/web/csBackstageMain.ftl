@@ -15,15 +15,36 @@
     <script>
 
         function btnClick(data) {
-            var aqUniqueId = data.getAttribute("aqId_data");
-            var playerUserId = data.getAttribute("userId_data");//玩家账号
-            var gameCode = data.getAttribute("gameCode_data");
 
             var accountId = $("#accountId").val();//账号Id
             var gameLanguage = $("#gameLanguage").val();
+            var aqId = data.getAttribute("aqId_data");
+            $.ajax({
+                url: "../csBackstage_aqFlag",
+                data: "gameLanguage="+gameLanguage+"&accountId="+accountId+"&aqId="+aqId,
+                cache: false
+            }).done(function( jsonData ) {
+                var jsonTemp = JSON.parse(jsonData);
+                //console.log(jsonData);
+                if (1000 == jsonTemp.code){
+                    var aqUniqueId = data.getAttribute("aqId_data");
+                    var playerUserId = data.getAttribute("userId_data");//玩家账号
+                    var gameCode = data.getAttribute("gameCode_data");
 
-            window.location.href="web/csBackstageChat.html?aqUniqueId="+aqUniqueId+"&playerUserId="+playerUserId
-                    +"&gameCode="+gameCode+"&userId="+accountId+"&gameLanguage="+gameLanguage;
+                    var accountId = $("#accountId").val();//账号Id
+                    var gameLanguage = $("#gameLanguage").val();
+
+                    window.location.href="web/csBackstageChat.html?aqUniqueId="+aqUniqueId+"&playerUserId="+playerUserId
+                            +"&gameCode="+gameCode+"&userId="+accountId+"&gameLanguage="+gameLanguage;
+                }else{
+                    var r=confirm(_languageSelect(gameLanguage, "refreshInterface"));
+                    if (r==true){
+                        location.reload(true);
+                    }
+                }
+            });
+
+
         }
 
         function btnClick_endChat(data) {

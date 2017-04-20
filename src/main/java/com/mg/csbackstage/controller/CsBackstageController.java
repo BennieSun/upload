@@ -242,4 +242,42 @@ public class CsBackstageController {
         return mav;
     }
 
+    @RequestMapping(value = {"/csBackstage_aqFlag", "/csBackstage_detailChat.web"}, method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public String askQuestionsFlag(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+        ParamLogMessage plm = GlobalHelper.RequestParameterHelper.loadRequestMessage(httpServletRequest, true, true);
+        logger.info(plm.print());
+        Map<String,String> initMap = plm.getParamsMap();
+
+        String ip = CommonUtils.getIpAddr(httpServletRequest);
+
+        String aqId = initMap.get("aqId");//问题Id
+        String gameLanguage = initMap.get("gameLanguage");//提示语言信息
+
+        String langName = ServerConfig.getInstance().getLang();
+        if (StringUtils.isNotEmpty(gameLanguage)) {
+            langName = gameLanguage;
+        }
+
+        JSONObject jsonObject = new JSONObject();
+
+        if (StringUtils.isEmpty(aqId) || Long.valueOf(aqId)<=0){
+            logger.info("params is null,aqId:"+aqId+",");
+            jsonObject.put("code", ResponseCodeConst.PARAMS_EXCEPTION);
+            jsonObject.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.PARAMS_EXCEPTION));
+            return jsonObject.toJSONString();
+        }
+
+        CsAskQuestionsBean csBSAQChatDetail = csBackstageManager.getAQById(Long.valueOf(aqId));
+        if (null != csBSAQChatDetail && csBSAQChatDetail.getFlag()==CsEnumUtils.AskQuestionsFlag.processing.getStatusNum()){
+            jsonObject.put("code", ResponseCodeConst.IS_SUCCESS);
+            jsonObject.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.IS_SUCCESS));
+            return jsonObject.toJSONString();
+        }
+
+        jsonObject.put("code", ResponseCodeConst.SYSTEM_EXCEPTION);
+        jsonObject.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.SYSTEM_EXCEPTION));
+        return jsonObject.toJSONString();
+    }
+
 }
