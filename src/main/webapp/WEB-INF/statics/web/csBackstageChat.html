@@ -431,8 +431,8 @@
 
             if (window.WebSocket) {
                 var userId = $("#userId").val();
-                socket = new WebSocket("ws://10.10.10.200:26789/websocket?{\"userId\":\""+userId+"\",\"senderType\":\"cs\"}");//
-                //socket = new WebSocket("ws://imcs.starb168.com:26789/websocket?{\"userId\":\""+userId+"\",\"senderType\":\"cs\"}");//
+                //socket = new WebSocket("ws://10.10.10.200:26789/websocket?{\"userId\":\""+userId+"\",\"senderType\":\"cs\"}");//
+                socket = new WebSocket("ws://imcs.starb168.com:26789/websocket?{\"userId\":\""+userId+"\",\"senderType\":\"cs\"}");//
                 socket.onopen = onopen;
                 socket.onmessage = onmessage;
                 socket.onclose = onclose;

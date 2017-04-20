@@ -70,8 +70,8 @@
             if (window.WebSocket) {
                 var userId = $("#userId").val();
                 var roleName = $("#roleName").val();
-                socket = new WebSocket("ws://10.10.10.200:26789/websocket?{\"userId\":\""+userId+"\",\"roleName\":\""+roleName+"\",\"senderType\":\"player\"}");//
-                //socket = new WebSocket("ws://imcs.starb168.com:26789/websocket?{\"userId\":\""+userId+"\",\"roleName\":\""+roleName+"\",\"senderType\":\"player\"}");//
+                //socket = new WebSocket("ws://10.10.10.200:26789/websocket?{\"userId\":\""+userId+"\",\"roleName\":\""+roleName+"\",\"senderType\":\"player\"}");//
+                socket = new WebSocket("ws://imcs.starb168.com:26789/websocket?{\"userId\":\""+userId+"\",\"roleName\":\""+roleName+"\",\"senderType\":\"player\"}");//
                 socket.onopen = onopen;
                 socket.onmessage = onmessage;
                 socket.onclose = onclose;
