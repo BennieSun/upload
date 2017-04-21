@@ -117,7 +117,7 @@ public class WebSocketManager {
             senderTypeNum = CsEnumUtils.SenderType.player.getStatusNum();
         }else if (CsEnumUtils.SenderType.cs.toString().equals(senderType)) {//客服后台
             if (StringUtils.isEmpty(playerUserId)){
-                logger.info("params is exception,userId"+playerUserId);
+                logger.info("params is exception,playerUserId"+playerUserId);
                 responeJson.put("code", ResponseCodeConst.PARAMS_EXCEPTION);
                 responeJson.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.PARAMS_EXCEPTION));
                 ctx.channel().writeAndFlush(new TextWebSocketFrame(responeJson.toJSONString()));
@@ -152,6 +152,7 @@ public class WebSocketManager {
                 Long.valueOf(aqId), CsEnumUtils.AskQuestionsFlag.processing.getStatusNum());
 
         if (null == csAskQuestionsBean){
+            logger.info("channelId="+ctx.channel().id()+":csAskQuestionsBean is null,aqUniqueId: " + aqId);
             responeJson.put("code", ResponseCodeConst.MSG_IS_END);
             responeJson.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.MSG_IS_END));
             ctx.channel().writeAndFlush(new TextWebSocketFrame(responeJson.toJSONString()));
