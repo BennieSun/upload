@@ -25,7 +25,14 @@
             style="display: none">${csAskQuestions.packageName!''}</td>
         <td name="userId" id="userId" class="ALL" width="80px;">${csAskQuestions.userId?c!''}</td>
         <td name="gameName" id="gameName" class="ALL" width="80px;">${csAskQuestions.gameName!''}</td>
-        <td name="message" id="message" class="ALL" width="80px;">${csAskQuestions.message!''}</td>
+        <td name="message" id="message" class="ALL" width="80px;" data-message="${csAskQuestions.message!''}"
+            onmouseover="javascript:message_touch(this);" onmouseout="javascript:message_out(this);">
+            <#if  (csAskQuestions.message?length>15)>
+            <span>${csAskQuestions.message[0..15]?replace("/<br>/g","","ri")?default("")}...<span>
+            <#else>
+            ${csAskQuestions.message!''}
+            </#if>
+        </td>
         <td name="senderType" id="senderType" class="ALL" width="80px;">${csAskQuestions.senderId!''}</td>
         <td name="createdTime" id="createdTime" class="ALL" width="80px;" style="display: none">
         ${(csAskQuestions.createdTime*1000)?number_to_datetime?string('yyyy-MM-dd HH:mm:ss')}

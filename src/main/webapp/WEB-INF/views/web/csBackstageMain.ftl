@@ -11,14 +11,25 @@
     <script type="text/javascript" src="js/commConfig.js"></script>
     <script type="text/javascript" src="js/config.js"></script>
     <title></title>
-
+    <style>
+        #nav {
+            width: 450px;
+            height: 280px;
+            border: 1px solid #D4CD49;
+            position: fixed;
+            background: #d1dbe5;
+            font-size: 16px;
+            text-align: center;
+            left: 30%;
+            top: 30%;}
+    </style>
     <script>
 
-        function btnClick(data) {
+        function btnClick(_this) {
 
             var accountId = $("#accountId").val();//账号Id
             var gameLanguage = $("#gameLanguage").val();
-            var aqId = data.getAttribute("aqId_data");
+            var aqId = _this.getAttribute("aqId_data");
             $.ajax({
                 url: "../csBackstage_aqFlag",
                 data: "gameLanguage="+gameLanguage+"&accountId="+accountId+"&aqId="+aqId,
@@ -27,9 +38,9 @@
                 var jsonTemp = JSON.parse(jsonData);
                 //console.log(jsonData);
                 if (1000 == jsonTemp.code){
-                    var aqUniqueId = data.getAttribute("aqId_data");
-                    var playerUserId = data.getAttribute("userId_data");//玩家账号
-                    var gameCode = data.getAttribute("gameCode_data");
+                    var aqUniqueId = _this.getAttribute("aqId_data");
+                    var playerUserId = _this.getAttribute("userId_data");//玩家账号
+                    var gameCode = _this.getAttribute("gameCode_data");
 
                     var accountId = $("#accountId").val();//账号Id
                     var gameLanguage = $("#gameLanguage").val();
@@ -60,9 +71,24 @@
                 $( "#contentDivId").css("display","none");
             });
         }
+
+        function message_touch(_this){
+            var message = _this.getAttribute("data-message");
+            $("#nav").css("display","inline");
+            $("#nav span").remove();
+            $("#nav").append("<span>"+message+"</span>")
+        }
+
+        function message_out() {
+            $("#nav").css("display","none");
+            $("#nav span").remove();
+        }
     </script>
 </head>
 <body>
+
+<div id="nav" style="display: none;"></div>
+
 <div id="btn_end_chat">
     <button style="color:red; margin: 10 auto;" type="button" onclick="javascript:btnClick_endChat(this);">已关闭问题列表</button>
 </div>
@@ -99,7 +125,13 @@
                     <td name="packageName" id="packageName"  class="ALL" width="80px;" style="display: none">${csAskQuestions.packageName!''}</td>
                     <td name="userId" id="userId"  class="ALL" width="80px;">${csAskQuestions.userId?c!''}</td>
                     <td name="gameName" id="gameName"  class="ALL" width="80px;">${csAskQuestions.gameName!''}</td>
-                    <td name="message" id="message"  class="ALL" width="80px;">${csAskQuestions.message!''}</td>
+                    <td name="message" id="message"  class="ALL" width="80px;">
+                        <#if  (csAskQuestions.message?length>15)>
+                            <span>${csAskQuestions.message[0..15]?replace("/<br>/g","","ri")?default("")}...<span>
+                        <#else>
+                            ${csAskQuestions.message!''}
+                        </#if>
+                    </td>
                     <td name="senderType" id="senderType"  class="ALL" width="80px;">${csAskQuestions.senderId!''}</td>
                     <td name="createdTime" id="createdTime"  class="ALL" width="80px;" style="display: none">
                         ${(csAskQuestions.createdTime*1000)?number_to_datetime?string('yyyy-MM-dd HH:mm:ss')}
