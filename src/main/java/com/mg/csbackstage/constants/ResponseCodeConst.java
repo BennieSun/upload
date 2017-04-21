@@ -20,6 +20,12 @@ public class ResponseCodeConst{
     /**消息太长**/
     public static final int MSG_TO_LONG = 1003;
 
+    /**问题已经结束**/
+    public static final int MSG_IS_END = 1004;
+
+    /**无发送权限**/
+    public static final int MSG_SEND_PERMISSION = 1005;
+
 
     /********************异常或错误***************************／
 

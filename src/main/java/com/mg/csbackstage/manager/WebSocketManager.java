@@ -101,6 +101,9 @@ public class WebSocketManager {
 
         if (StringUtils.isEmpty(aqId) || Long.valueOf(aqId) <=0 || StringUtils.isEmpty(message)){
             logger.info("params is null,aqId:"+aqId+",message:"+message);
+            responeJson.put("code", ResponseCodeConst.PARAMS_EXCEPTION);
+            responeJson.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.PARAMS_EXCEPTION));
+            ctx.channel().writeAndFlush(new TextWebSocketFrame(responeJson.toJSONString()));
             return;
         }
 
@@ -139,22 +142,37 @@ public class WebSocketManager {
 
         if (null == usersPojo || null == usersPojo.getUserId()){
             logger.info("channelId="+ctx.channel().id()+":session's userId is not exist");
+            responeJson.put("code", ResponseCodeConst.PARAMS_EXCEPTION);
+            responeJson.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.PARAMS_EXCEPTION));
+            ctx.channel().writeAndFlush(new TextWebSocketFrame(responeJson.toJSONString()));
             return;
         }
 
         CsAskQuestionsBean csAskQuestionsBean = facAskQuestionsService.findAQByAqIdAsFac(
                 Long.valueOf(aqId), CsEnumUtils.AskQuestionsFlag.processing.getStatusNum());
+
+        if (null == csAskQuestionsBean){
+            responeJson.put("code", ResponseCodeConst.MSG_IS_END);
+            responeJson.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.MSG_IS_END));
+            ctx.channel().writeAndFlush(new TextWebSocketFrame(responeJson.toJSONString()));
+            return;
+        }
+
         //通知信息接收人
         if (CsEnumUtils.SenderType.player.getStatusNum() == senderTypeNum) {//发送者为玩家 -> 管理员
-            if (null == csAskQuestionsBean || csAskQuestionsBean.getUserId().longValue() != usersPojo.getUserId().longValue()) {
-                logger.info((null == csAskQuestionsBean) ? "csAskQuestionsBean is null,aqUniqueId: " + aqId
-                        : "aqUniqueId: " + aqId + ", not exist userId,userId=" + usersPojo.getUserId() + "csAskQuestionsBean.getUserId()=" + csAskQuestionsBean.getUserId());
+            if (csAskQuestionsBean.getUserId().longValue() != usersPojo.getUserId().longValue()) {
+                logger.info("aqUniqueId: " + aqId + ", not exist userId,userId=" + usersPojo.getUserId() + "csAskQuestionsBean.getUserId()=" + csAskQuestionsBean.getUserId());
+                responeJson.put("code", ResponseCodeConst.MSG_SEND_PERMISSION);
+                responeJson.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.MSG_SEND_PERMISSION));
+                ctx.channel().writeAndFlush(new TextWebSocketFrame(responeJson.toJSONString()));
                 return;
             }
         }else if (CsEnumUtils.SenderType.cs.getStatusNum() == senderTypeNum) {//发送者为客服后台 -> 发送到玩家
-            if (null == csAskQuestionsBean || csAskQuestionsBean.getUserId().longValue() != Long.valueOf(playerUserId).longValue()) {
-                logger.info((null == csAskQuestionsBean) ? "csAskQuestionsBean is null,aqUniqueId: " + aqId
-                        : "aqUniqueId: " + aqId + ", not exist userId,userId=" + playerUserId + "csAskQuestionsBean.getUserId()=" + csAskQuestionsBean.getUserId());
+            if (csAskQuestionsBean.getUserId().longValue() != Long.valueOf(playerUserId).longValue()) {
+                logger.info("aqUniqueId: " + aqId + ", not exist userId,userId=" + playerUserId + "csAskQuestionsBean.getUserId()=" + csAskQuestionsBean.getUserId());
+                responeJson.put("code", ResponseCodeConst.MSG_SEND_PERMISSION);
+                responeJson.put("message", ResponseMsgConst.getInstance(langName).getResponseMsg(ResponseCodeConst.MSG_SEND_PERMISSION));
+                ctx.channel().writeAndFlush(new TextWebSocketFrame(responeJson.toJSONString()));
                 return;
             }
         }

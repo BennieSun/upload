@@ -45,6 +45,12 @@ public class ResponseMsgConst {
             case ResponseCodeConst.MSG_TO_LONG:/**消息太长**/
                 responseMsg = LangManager.getString(langNameLocal,"responseMsg","msgToLongMsg");
                 break;
+            case ResponseCodeConst.MSG_IS_END:/**问题已结束**/
+                responseMsg = LangManager.getString(langNameLocal,"responseMsg","msgIsEndMsg");
+                break;
+            case ResponseCodeConst.MSG_SEND_PERMISSION:/**没有发送权限**/
+                responseMsg = LangManager.getString(langNameLocal,"responseMsg","msgSendPermissionMsg");
+                break;
 
 
             case ResponseCodeConst.IS_FAIL:/**错误**/
