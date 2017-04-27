@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
-  <display-name>SpringMVC csbackstage Web Application</display-name>
+  <display-name>SpringMVC upload Web Application</display-name>
 
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -54,8 +54,8 @@
 
   <!--redis、db init & destroy-->
   <servlet>
-    <servlet-name>csbackstageInitPoolManager</servlet-name>
-    <servlet-class>com.mg.csbackstage.core.InitPoolManager</servlet-class>
+    <servlet-name>uploadInitPoolManager</servlet-name>
+    <servlet-class>com.mg.upload.core.InitPoolManager</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 

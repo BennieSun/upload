@@ -13,7 +13,7 @@
 
 
     <!--指明 controller 所在包，并扫描其中的注解-->
-    <context:component-scan base-package="com.mg.csbackstage.controller.**"/>
+    <context:component-scan base-package="com.mg.upload.controller.**"/>
 
     <!--开启自动注解-->
     <mvc:annotation-driven>

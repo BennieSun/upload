@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.mg.csbackstage</groupId>
-  <artifactId>csbackstage-all</artifactId>
+  <groupId>com.mg.upload</groupId>
+  <artifactId>upload-all</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
   <modules>
-    <module>csbackstage-core</module>
+    <module>upload-core</module>
   </modules>
-  <name>csbackstage-all Maven Webapp</name>
+  <name>upload-all Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
 
@@ -16,7 +16,7 @@
     <mg.utils-core>1.0-SNAPSHOT</mg.utils-core>
     <mg.db-core>1.0-SNAPSHOT</mg.db-core>
     <mg.redis-core>1.0-SNAPSHOT</mg.redis-core>
-    <mg.csbackstage-core>1.0-SNAPSHOT</mg.csbackstage-core>
+    <mg.upload-core>1.0-SNAPSHOT</mg.upload-core>
     <log4j2.version>2.6.2</log4j2.version>
     <slf4j.version>1.7.21</slf4j.version>
     <commons-io.version>2.5</commons-io.version>
@@ -33,6 +33,7 @@
     <org.freemarker.version>2.3.23</org.freemarker.version>
     <io.netty.version>4.1.9.Final</io.netty.version>
     <google.protobuf.version>3.2.0</google.protobuf.version>
+    <commons-fileupload.version>1.3.2</commons-fileupload.version>
   </properties>
 
 
@@ -53,9 +54,9 @@
       <version>${mg.redis-core}</version>
     </dependency>
     <dependency>
-      <groupId>com.mg.csbackstage</groupId>
-      <artifactId>csbackstage-core</artifactId>
-      <version>${mg.csbackstage-core}</version>
+      <groupId>com.mg.upload</groupId>
+      <artifactId>upload-core</artifactId>
+      <version>${mg.upload-core}</version>
     </dependency>
 
     <dependency>
@@ -194,7 +195,13 @@
       <version>${org.freemarker.version}</version>
     </dependency>
 
-    <!-- Jackson JSON Mapper -->
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>${commons-fileupload.version}</version>
+    </dependency>
+
+      <!-- Jackson JSON Mapper -->
     <!--<dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
@@ -207,7 +214,7 @@
   </dependencies>
 
   <build>
-    <finalName>csbackstage-all</finalName>
+    <finalName>upload-all</finalName>
   </build>
 
 </project>

@@ -1,5 +1,5 @@
 .idea
-csbackstage-core/target
-csbackstage-core.iml
+upload-core/target
+upload-core.iml
 target
-csbackstage-all.iml
+upload-all.iml

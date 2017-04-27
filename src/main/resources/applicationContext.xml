@@ -12,16 +12,6 @@
 
     <!--开启对包进行扫描-->
     <context:annotation-config/>
-    <!-- 需要扫描的包 过滤-->
-    <context:component-scan base-package="com.mg.csbackstage.service.**" />
-    <context:component-scan base-package="com.mg.csbackstage.dao.**" />
-    <context:component-scan base-package="com.mg.csbackstage.bean.**" />
-    <context:component-scan base-package="com.mg.csbackstage.manager.**" />
-
-    <!--socket bean-->
-    <bean id="imServer" class="com.mg.csbackstage.service.NettyIMServer" init-method="run">
-        <constructor-arg value="26789" type="int"></constructor-arg>
-    </bean>
 
 
     <!--<context:component-scan base-package="com.mg.login.pojo.**" />-->
