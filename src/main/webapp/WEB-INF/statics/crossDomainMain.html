@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+<head>
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <!--<meta http-equiv="Content-Language" content="zh-CN" />-->
+    <meta name="roots" content="" />
+    <meta name="Keywords" content="" />
+    <meta name="Description" content="" />
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/csMain.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.fileupload.js"></script>
+    <script type="text/javascript" src="js/jquery.iframe-transport.js"></script>
+    <title></title>
+    <script>
+
+
+        $(function () {
+
+            //上传
+            fileupload = $('#uploadFile').fileupload({
+                url: 'http://imgtw-upload.starb168.com/upload_img',//request url
+                dataType: 'text',
+                //autoUpload: false,
+                formData: {//update data
+                    "userId":userId,
+                    "gameCode":gameCode,
+                    "gameLanguage":gameLanguage
+                },
+                forceIframeTransport: true,//跨域开关
+                add: function (e, data) {
+                    var uploadErrors = [];
+
+                    var reg = /(\.|\/)(gif|jpe?g|png)$/i;
+                    //验证图片格式
+                    if(!reg.test(data.originalFiles[0]['type'])){
+                        uploadErrors.push(_languageSelect(gameLanguage,"fileFormatNotMatch"));
+                    }
+                    //图片大小判断(6M)
+                    if (data.originalFiles[0]['size'] > 6144000) {
+                        uploadErrors.push(_languageSelect(gameLanguage,"fileSizeTooLarge"));
+                    }
+
+                    if(uploadErrors.length > 0) {
+                        alert(uploadErrors.join("\n"));
+                    }else{
+                        //萌版
+                        //$("#question_form").append("\<div style=\"width: 1280px\; height: 887px\; left: 0px\; position: absolute\; top: 0px\; z-index: 10000\;\" id=\"loading-indicator-undefined-overlay\" class=\"loading-indicator-overlay\"\>\<div class=\"spinner\"\> \<div class=\"bounce1\"\>\</div\>\<div class=\"bounce2\"\>\</div\> \<div class=\"bounce3\"\>\</div\> \</div\>\</div\>");
+                        data.submit();
+                    }
+                },
+                done: function (e, data) {
+                    var jsons = eval(JSON.parse(data.result).files[0]);
+                    if(1000 == jsons.code){//success
+                        $(".photo img").css('display','inline');
+                        $(".photo img").attr('src',jsons.url);
+                        $("#imgUrl").val(jsons.url);
+                        $(".upload-tips").text(jsons.message);
+                    }else{
+                        alert(jsons.message);
+                    }
+                    $("#question_form #loading-indicator-undefined-overlay").remove();
+                },
+                fail: function(e, data){
+                    $("#question_form #loading-indicator-undefined-overlay").remove();
+                    console.log(data.textStatus);
+                    console.log(data.errorThrown);
+                }
+            });
+
+            fileupload.fileupload(
+                    'option',
+                    'redirect',
+                    'http://'+window.location.host+'/result.html'
+            );
+        });
+        //-->
+    </script>
+</head>
+<body>
+<div id="Tab">
+
+    <div class="Contentbox">
+
+        <div id="con_menu_1" class="hover">
+            <div class="service-tit">提交問題</div>
+            <div class="questions-top">
+                <form method="post" id="question_form" action="">
+                    <ul>
+                        <li>
+
+
+                            <div class="q3">
+                                <div class="photo-upload">
+                                    <div class="photo">
+                                        <div id="preview">
+
+                                        </div>
+                                        <img src="../images/pic1.png" alt="" style="display:none">
+                                    </div>
+                                    <div class="upload">
+                                        <input type="button" class="btn-add" value="上傳">
+                                        <input type="file" class="file-up" size="28" name="uploadFile" id="uploadFile">
+                                    </div>
+                                    <span class="upload-tips">總體大小不超過6M</span>
+                                </div>
+                            </div>
+
+
+                        </li>
+
+                    </ul>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
