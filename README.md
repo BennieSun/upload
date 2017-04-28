@@ -1,6 +1,7 @@
 # upload
 功能：jQuery-File-Upload插件java的跨域
-网页上传代码：webapp/WEB-INF/statics/*
+网页上传代码(demo)：webapp/WEB-INF/statics/*
+java上传代码（demo）：com.mg.upload.controller => imgUpload
 
 
 运行在服务器可能会遇到的问题：
